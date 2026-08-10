@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  /* config options here */
+  devIndicators: false, // Hides the badge completely
 };
 
 export default nextConfig;
