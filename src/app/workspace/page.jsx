@@ -106,34 +106,34 @@ function WorkspaceContent() {
                 ) : (
                     <>
                         {/* Premium Enterprise Header & Action Bar */}
-                        <div className="relative overflow-hidden bg-gradient-to-br from-white via-slate-50 to-blue-50/50 text-slate-900 p-6 sm:p-7 rounded-3xl shadow-sm border border-slate-200/80 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 transition-all">
+                        <div className="relative overflow-hidden rounded-3xl border border-blue-500/20 bg-gradient-to-br from-slate-950 via-indigo-150 to-blue-950 p-6 sm:p-10 shadow-blue-950/40 text-white flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 transition-all">
 
                             {/* Soft Decorative Ambient Glow */}
-                            <div className="absolute right-0 top-0 w-80 h-80 bg-blue-400/5 rounded-full blur-3xl pointer-events-none"></div>
+                            <div className="absolute right-0 top-0 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
                             <div className="relative z-10 space-y-2">
                                 <div className="flex items-center gap-2.5">
-                                    <span className="inline-flex items-center gap-2 bg-blue-100/70 text-blue-800 border border-blue-200 text-[11px] font-bold px-3.5 py-1 rounded-full uppercase tracking-wider shadow-2xs backdrop-blur-xs">
-                                        <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
+                                    <span className="inline-flex items-center gap-2 bg-slate-800/80 text-blue-400 border border-slate-700/80 text-[11px] font-bold px-3.5 py-1 rounded-full uppercase tracking-wider shadow-sm backdrop-blur-xs">
+                                        <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
                                         {projectId ? 'Session Active • Live Editor' : 'New Takeoff Workspace'}
                                     </span>
-                                    <span className="text-slate-300">•</span>
-                                    <span className="text-xs font-semibold text-slate-500">QMetrix QS Engine</span>
+                                    <span className="text-slate-600">•</span>
+                                    <span className="text-xs font-semibold text-slate-400">QMetrix QS Engine</span>
                                 </div>
 
-                                <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-slate-900 tracking-tight">
+                                <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-white tracking-tight">
                                     Interactive Room Estimation Canvas
                                 </h2>
 
-                                <p className="text-xs sm:text-sm text-slate-600 max-w-2xl font-medium leading-relaxed">
+                                <p className="text-xs sm:text-sm text-slate-300 max-w-2xl font-medium leading-relaxed">
                                     Map architectural room boundaries using precise vertex coordinate capture to compute real-time areas and bills of quantities.
                                 </p>
                             </div>
 
-                            <div className="relative z-10 flex items-center gap-3 w-full lg:w-auto justify-end shrink-0 pt-4 lg:pt-0 border-t lg:border-t-0 border-slate-200/60">
+                            <div className="relative z-10 flex items-center gap-3 w-full lg:w-auto justify-end shrink-0 pt-4 lg:pt-0 border-t lg:border-t-0 border-slate-800">
                                 <button
                                     onClick={() => setIsModalOpen(true)}
-                                    className="w-full sm:w-auto flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3.5 rounded-2xl shadow-md shadow-blue-600/20 transition-all text-xs sm:text-sm cursor-pointer active:scale-95 border border-blue-500/20"
+                                    className="w-full sm:w-auto flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold px-6 py-3.5 rounded-2xl shadow-md shadow-blue-900/30 transition-all text-xs sm:text-sm cursor-pointer active:scale-95 border border-blue-400/20"
                                 >
                                     <Save className="w-4 h-4" />
                                     {projectId ? 'Update Project & Sync' : 'Save Project Takeoffs'}

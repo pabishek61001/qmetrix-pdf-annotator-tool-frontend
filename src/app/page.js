@@ -3,6 +3,8 @@ import Navbar from '@/components/Navbar';
 import { PlusCircle, Layers, Calculator, FolderKanban, Search } from 'lucide-react';
 import Link from 'next/link';
 
+export const dynamic = 'force-dynamic';
+
 // Server-Side Data Fetching directly in Next.js Server Component
 async function getProjects() {
   try {
@@ -33,31 +35,42 @@ export default async function DashboardPage() {
       <main className="flex-1 max-w-[1600px] w-full mx-auto p-4 sm:p-6 lg:p-8 flex flex-col gap-8">
 
         {/* Hero / Action Header Banner */}
-        <div className="relative overflow-hidden bg-gradient-to-br from-white via-slate-50 to-blue-50/60 text-slate-900 p-6 sm:p-8 rounded-3xl shadow-xs border border-slate-200/80 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
-          <div className="absolute right-0 top-0 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl pointer-events-none"></div>
+        <div className="relative overflow-hidden rounded-3xl border border-blue-500/20 bg-gradient-to-br from-blue-950 via-indigo-150 to-slate-950 p-6 sm:p-10 shadow-blue-950/40 text-white">
+          {/* 1. Architectural CAD Grid Pattern Overlay */}
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:2rem_2rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none" />
 
-          <div className="relative z-10 space-y-2">
-            <div className="flex items-center gap-2.5">
-              <span className="inline-flex items-center gap-2 bg-blue-100 text-blue-800 text-[11px] font-bold px-3.5 py-1 rounded-full uppercase tracking-wider">
-                <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
-                Quantity Surveying & Cost Estimations
-              </span>
+          {/* 2. Vibrant Multi-colored Ambient Lighting Blobs */}
+          <div className="absolute -left-20 -top-20 h-72 w-72 rounded-full bg-blue-600/30 blur-[90px] pointer-events-none" />
+          <div className="absolute -right-20 -bottom-20 h-72 w-72 rounded-full bg-indigo-500/20 blur-[90px] pointer-events-none" />
+
+          <div className="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+            {/* Left Side: Titles and Description */}
+            <div className="space-y-3">
+              <div className="flex items-center gap-2.5">
+                <span className="inline-flex items-center gap-2 bg-blue-500/20 text-blue-300 border border-blue-400/30 text-[11px] font-bold px-3.5 py-1 rounded-full uppercase tracking-wider shadow-sm backdrop-blur-md">
+                  <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
+                  Quantity Surveying & Cost Estimations
+                </span>
+              </div>
+
+              <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+                Blueprint Takeoff Dashboard
+              </h1>
+
+              <p className="text-slate-300 text-xs sm:text-sm max-w-2xl font-medium leading-relaxed">
+                Manage structural drawings, execute precise polygon measurements, review room bills of quantities, and sync cloud changes in real-time.
+              </p>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-              Blueprint Takeoff Dashboard
-            </h1>
-            <p className="text-slate-600 text-xs sm:text-sm max-w-2xl font-medium leading-relaxed">
-              Manage structural drawings, execute precise polygon measurements, review room bills of quantities, and sync cloud changes in real-time.
-            </p>
-          </div>
 
-          <Link
-            href="/workspace"
-            className="relative z-10 flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3.5 rounded-2xl shadow-md shadow-blue-600/20 transition-all shrink-0 cursor-pointer active:scale-95 text-xs sm:text-sm"
-          >
-            <PlusCircle className="w-5 h-5" />
-            Create New Blueprint Project
-          </Link>
+            {/* Right Side: Action CTA */}
+            <Link
+              href="/workspace"
+              className="group relative z-10 flex items-center justify-center gap-2.5 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-semibold px-6 py-4 rounded-2xl shadow-md shadow-blue-500/30 transition-all duration-300 hover:-translate-y-0.5 shrink-0 cursor-pointer active:scale-95 text-xs sm:text-sm border border-blue-400/40"
+            >
+              <PlusCircle className="w-5 h-5 transition-transform duration-300 group-hover:rotate-90" />
+              Create New Blueprint Project
+            </Link>
+          </div>
         </div>
 
         {/* Quick Aggregate Metrics Strip */}

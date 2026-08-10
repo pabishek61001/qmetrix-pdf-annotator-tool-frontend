@@ -10,7 +10,7 @@ export default function Navbar({ showBack = true, title = "PDF Annotation Tool" 
     return (
         <>
             <header className="bg-white/90 backdrop-blur-md border-b border-slate-200 sticky top-0 z-40 shadow-xs transition-all">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-2">
+                <div className="max-w-[1600px] mx-auto px-4 sm:px-6 h-16 py-10 flex items-center justify-between gap-2">
 
                     {/* Left Side: Navigation Back & App Identity */}
                     <div className="flex items-center gap-2 sm:gap-4 min-w-0">
@@ -56,16 +56,8 @@ export default function Navbar({ showBack = true, title = "PDF Annotation Tool" 
 
                     {/* Right Side: Status Badges & Mobile Hamburger Toggle */}
                     <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-                        <div className="hidden md:flex items-center gap-2 bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-xl">
-                            <ShieldCheck className="w-4 h-4 text-blue-600" />
-                            <span className="text-xs font-semibold text-slate-700">Production Mode</span>
-                        </div>
-
-                        <div className="hidden sm:flex items-center gap-2 bg-blue-50 text-blue-700 font-semibold text-xs px-3.5 py-1.5 rounded-full border border-blue-200 shadow-2xs">
-                            <span className="relative flex h-2 w-2">
-                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                                <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-600"></span>
-                            </span>
+                        <div className="hidden sm:flex items-center gap-2 bg-blue-50 text-emerald-700 font-semibold text-xs px-3.5 py-1.5 rounded-full border border-emerald-200 shadow-2xs">
+                            <ShieldCheck className="w-4 h-4 text-emerald-600" />
                             System Live & Ready
                         </div>
 
