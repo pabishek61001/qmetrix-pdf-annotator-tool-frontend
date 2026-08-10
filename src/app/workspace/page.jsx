@@ -2,11 +2,11 @@
 
 import React, { useState, useEffect, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import Navbar from '../../components/Navbar';
-import PDFViewerCanvas from '../../components/PDFViewerCanvas';
-import ProjectFormModal from '../../components/ProjectFormModal';
+import Navbar from '../components/Navbar';
+import PDFViewerCanvas from '../components/PDFViewerCanvas';
+import ProjectFormModal from '../components/ProjectFormModal';
 import { Save, Loader2 } from 'lucide-react';
-import { useToast } from '@/components/ToastProvider';
+import { useToast } from '@/app/components/ToastProvider';
 
 function WorkspaceContent() {
 
@@ -32,7 +32,7 @@ function WorkspaceContent() {
         const fetchProjectDetails = async () => {
             try {
                 setLoadingProject(true);
-                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${projectId}`);
+                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/projects/${projectId}`);
                 if (!res.ok) throw new Error('Failed to fetch project data');
 
                 const project = await res.json();
@@ -67,7 +67,7 @@ function WorkspaceContent() {
 
             let res;
             if (projectId) {
-                res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${projectId}`, {
+                res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/projects/${projectId}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ name, description, annotations }),

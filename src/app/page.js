@@ -1,5 +1,5 @@
-import DashboardGrid from '@/components/DashboardGrid';
-import Navbar from '@/components/Navbar';
+import DashboardGrid from '@/app/components/DashboardGrid';
+import Navbar from '@/app/components/Navbar';
 import { PlusCircle, Layers, Calculator, FolderKanban, Search } from 'lucide-react';
 import Link from 'next/link';
 
