@@ -27,19 +27,25 @@ The **QMetrix Frontend** is a modern, responsive Next.js web application. It all
 ---
 
 ## 📁 Project Directory Structure
-```text
 qmetrix-pdf-annotator-frontend/
-├── app/
-│   ├── page.jsx                # Main Dashboard (SSR with dynamic rendering)
-│   ├── layout.jsx              # Root layout with global Tailwind styling
-│   └── workspace/
-│       └── page.jsx            # Interactive Room Estimation Canvas & Editor
-├── components/
-│   ├── DashboardGrid.jsx       # Responsive data table & project cards
-│   ├── Navbar.jsx              # Application navigation bar
-│   └── PDFViewerCanvas.jsx     # Canvas overlay & polygon vertex handler
-├── utils/
-│   └── geometryUtils.js        # Shoelace formula & scale conversion helpers
-├── public/                     # Static assets & sample blueprints
-├── .env.local                  # Local environment configuration
-└── package.json                # Dependencies and build scripts
+├── public/                             # Static assets & sample blueprints
+├── src/
+│   ├── app/
+│   │   ├── layout.js                   # Root layout with global Tailwind styling & font variables
+│   │   ├── page.jsx                    # Main Dashboard (SSR with dynamic rendering)
+│   │   └── workspace/
+│   │       ├── page.jsx                # Interactive Room Estimation Canvas & Editor
+│   │       └── components/
+│   │           ├── BoqSidebar.jsx      # Bill of Quantities sidebar & room manager
+│   │           ├── CanvasViewer.jsx    # Core canvas viewer & mobile rendering engine
+│   │           ├── PDFViewerCanvas.jsx # Main orchestrator for PDF view & polygon overlay
+│   │           └── ProjectFormModal.jsx# Save project metadata form modal
+│   ├── components/
+│   │   ├── DashboardGrid.jsx           # Responsive data table & project cards
+│   │   └── Navbar.jsx                  # Application navigation bar
+│   ├── providers/
+│   │   └── ToastProvider.jsx           # Global notification context provider
+│   └── utils/
+│       └── geometryUtils.js            # Shoelace formula & scale conversion helpers
+├── .env.local                          # Local environment configuration
+└── package.json                        # Dependencies and build scripts
