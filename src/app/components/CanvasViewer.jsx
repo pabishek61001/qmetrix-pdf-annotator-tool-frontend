@@ -47,11 +47,17 @@ export default function CanvasViewer({
                     style={{ width: '1000px', height: '650px', background: '#ffffff', minWidth: '1000px' }}
                 >
                     {pdfUrl ? (
-                        <iframe
-                            src={`${pdfUrl.startsWith('blob:') || pdfUrl.startsWith('http') ? pdfUrl : `${process.env.NEXT_PUBLIC_API_URL}${pdfUrl}`}#toolbar=0&navpanes=0&scrollbar=0`}
-                            title="Blueprint PDF Viewer"
-                            className="absolute inset-0 w-full h-full z-0 select-none border-0 overflow-hidden pointer-events-none"
-                        />
+                        <div className="absolute inset-0 w-full h-full z-0 overflow-hidden">
+                            {/* 1. Native PDF iframe renders instantly on mobile without prompting because pointer-events are enabled */}
+                            <iframe
+                                src={`${pdfUrl.startsWith('blob:') || pdfUrl.startsWith('http') ? pdfUrl : `${process.env.NEXT_PUBLIC_API_URL}${pdfUrl}`}#toolbar=0&navpanes=0&scrollbar=0`}
+                                title="Blueprint PDF Viewer"
+                                className="absolute inset-0 w-full h-full border-0 select-none"
+                            />
+                            {/* 2. Transparent Touch Shield: Blocks mobile scrolling/panning completely */}
+                            <div className="absolute inset-0 w-full h-full bg-transparent z-10" />
+                        </div>
+
                         // <object
                         //     data={`${pdfUrl.startsWith('blob:') || pdfUrl.startsWith('http') ? pdfUrl : `${process.env.NEXT_PUBLIC_API_URL}${pdfUrl}`}#toolbar=0&navpanes=0&scrollbar=0`}
                         //     type="application/pdf"
