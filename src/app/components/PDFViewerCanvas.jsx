@@ -78,7 +78,7 @@ export default function PDFViewerCanvas({
                                 }
                                 const nextState = !isDrawing;
                                 setIsDrawing(nextState);
-                                if (nextState && setIsSidebarOpen) setIsSidebarOpen(true);
+                                // if (nextState && setIsSidebarOpen) setIsSidebarOpen(true);
                                 mapperButtonRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
                             }}
                             className={`group relative flex-1 sm:flex-initial flex items-center justify-center gap-2 px-3 sm:px-4 py-2.5 rounded-xl font-bold text-xs tracking-wide transition-all duration-300 cursor-pointer shadow-lg active:scale-95 ${isDrawing

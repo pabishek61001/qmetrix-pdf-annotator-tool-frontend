@@ -47,17 +47,22 @@ export default function CanvasViewer({
                     style={{ width: '1000px', height: '650px', background: '#ffffff', minWidth: '1000px' }}
                 >
                     {pdfUrl ? (
-                        <object
-                            data={`${pdfUrl.startsWith('blob:') || pdfUrl.startsWith('http') ? pdfUrl : `${process.env.NEXT_PUBLIC_API_URL}${pdfUrl}`}#toolbar=0&navpanes=0&scrollbar=0`}
-                            type="application/pdf"
-                            className="absolute inset-0 w-full h-full pointer-events-none z-0 select-none block overflow-hidden"
-                        >
-                            <embed
-                                src={`${pdfUrl.startsWith('blob:') || pdfUrl.startsWith('http') ? pdfUrl : `${process.env.NEXT_PUBLIC_API_URL}${pdfUrl}`}`}
-                                type="application/pdf"
-                                className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-hidden"
-                            />
-                        </object>
+                        <iframe
+                            src={`${pdfUrl.startsWith('blob:') || pdfUrl.startsWith('http') ? pdfUrl : `${process.env.NEXT_PUBLIC_API_URL}${pdfUrl}`}#toolbar=0&navpanes=0&scrollbar=0`}
+                            title="Blueprint PDF Viewer"
+                            className="absolute inset-0 w-full h-full z-0 select-none border-0 overflow-hidden pointer-events-none"
+                        />
+                        // <object
+                        //     data={`${pdfUrl.startsWith('blob:') || pdfUrl.startsWith('http') ? pdfUrl : `${process.env.NEXT_PUBLIC_API_URL}${pdfUrl}`}#toolbar=0&navpanes=0&scrollbar=0`}
+                        //     type="application/pdf"
+                        //     className="absolute inset-0 w-full h-full pointer-events-none z-0 select-none block overflow-hidden"
+                        // >
+                        //     <embed
+                        //         src={`${pdfUrl.startsWith('blob:') || pdfUrl.startsWith('http') ? pdfUrl : `${process.env.NEXT_PUBLIC_API_URL}${pdfUrl}`}`}
+                        //         type="application/pdf"
+                        //         className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-hidden"
+                        //     />
+                        // </object>
                     ) : (
                         <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center z-20 bg-white">
                             <Layers className="w-12 h-12 text-slate-400 mx-auto mb-3 animate-bounce" />
