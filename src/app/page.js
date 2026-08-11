@@ -1,7 +1,7 @@
-import DashboardGrid from '@/app/components/DashboardGrid';
 import Navbar from '@/app/components/Navbar';
-import { PlusCircle, Layers, Calculator, FolderKanban, Search } from 'lucide-react';
+import { PlusCircle, Layers, Calculator, FolderKanban, Search, IndianRupee, View, Folders } from 'lucide-react';
 import Link from 'next/link';
+import SavedProjects from '@/app/components/SavedProjects';
 
 export const dynamic = 'force-dynamic';
 
@@ -43,7 +43,8 @@ export default async function DashboardPage() {
           <div className="absolute -left-20 -top-20 h-72 w-72 rounded-full bg-blue-600/30 blur-[90px] pointer-events-none" />
           <div className="absolute -right-20 -bottom-20 h-72 w-72 rounded-full bg-indigo-500/20 blur-[90px] pointer-events-none" />
 
-          <div className="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+          <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+
             {/* Left Side: Titles and Description */}
             <div className="space-y-3">
               <div className="flex items-center gap-2.5">
@@ -62,19 +63,30 @@ export default async function DashboardPage() {
               </p>
             </div>
 
-            {/* Right Side: Action CTA */}
-            <Link
-              href="/workspace"
-              className="group relative z-10 flex items-center justify-center gap-2.5 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-semibold px-6 py-4 rounded-2xl shadow-md shadow-blue-500/30 transition-all duration-300 hover:-translate-y-0.5 shrink-0 cursor-pointer active:scale-95 text-sm sm:text-md border border-blue-400/40 "
-            >
-              <PlusCircle className="w-5 h-5 transition-transform duration-300 group-hover:rotate-90" />
-              Create New Blueprint Project
-            </Link>
+            {/* Right Side: Action CTA Group */}
+            <div className="flex flex-row items-center gap-2 sm:gap-3 w-full max-w-sm">
+              <a
+                href="#projects-section"
+                className="group relative z-10 flex-1 flex items-center justify-center gap-1.5 sm:gap-2 bg-slate-700/80 hover:bg-slate-800 text-slate-200 font-semibold px-3 sm:px-6 py-3.5 sm:py-4 rounded-2xl transition-all duration-300 hover:-translate-y-0.5 cursor-pointer active:scale-95 text-xs sm:text-md border border-slate-700/60 backdrop-blur-md text-center shadow-xs"
+              >
+                <Folders className="w-4 h-4 text-slate-300 shrink-0 transition-transform duration-300 group-hover:translate-y-0.5" />
+                <span className="truncate">View Projects</span>
+              </a>
+
+              <Link
+                href="/workspace"
+                className="group relative z-10 flex-1 flex items-center justify-center gap-1.5 sm:gap-2.5 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-semibold px-3 sm:px-6 py-3.5 sm:py-4 rounded-2xl shadow-md shadow-blue-500/30 transition-all duration-300 hover:-translate-y-0.5 cursor-pointer active:scale-95 text-xs sm:text-md border border-blue-400/40 text-center"
+              >
+                <PlusCircle className="w-4 h-4 sm:w-5 sm:h-5 shrink-0 transition-transform duration-300 group-hover:rotate-90" />
+                <span className="truncate">Create Project</span>
+              </Link>
+            </div>
+
           </div>
         </div>
 
         {/* Quick Aggregate Metrics Strip */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-4 gap-4">
           <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs flex items-center gap-4">
             <div className="p-3 bg-blue-50 text-blue-600 rounded-2xl">
               <FolderKanban className="w-6 h-6" />
@@ -85,13 +97,25 @@ export default async function DashboardPage() {
             </div>
           </div>
 
+          {/* Cumulative Takeoff Area Card */}
           <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs flex items-center gap-4">
             <div className="p-3 bg-indigo-50 text-indigo-600 rounded-2xl">
               <Layers className="w-6 h-6" />
             </div>
             <div>
               <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">Cumulative Takeoff Area</p>
-              <p className="text-xl font-extrabold text-slate-900 mt-0.5" >{totalAreaAllProjects.toFixed(2)} sq.m</p>
+              <p className="text-xl font-extrabold text-slate-900 mt-0.5">{totalAreaAllProjects.toFixed(2)} sq.m</p>
+            </div>
+          </div>
+
+          {/* Dedicated Unit Rate Card */}
+          <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs flex items-center gap-4">
+            <div className="p-3 bg-orange-50 text-orange-600 rounded-2xl">
+              <IndianRupee className="w-6 h-6" />
+            </div>
+            <div>
+              <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">Standard Unit Rate</p>
+              <p className="text-xl font-extrabold text-slate-900 mt-0.5">125 / sq.m</p>
             </div>
           </div>
 
@@ -109,7 +133,7 @@ export default async function DashboardPage() {
         </div>
 
         {/* Section Header */}
-        <div className="flex justify-between items-center pt-2">
+        <div id="projects-section" className="flex justify-between items-center pt-2" >
           <h2 className="text-base sm:text-lg font-bold text-slate-900">
             Saved Projects ({projects.length})
           </h2>
@@ -119,7 +143,7 @@ export default async function DashboardPage() {
         </div>
 
         {/* Dashboard Grid Component */}
-        <DashboardGrid projects={projects} />
+        <SavedProjects projects={projects} />
       </main>
     </div>
   );

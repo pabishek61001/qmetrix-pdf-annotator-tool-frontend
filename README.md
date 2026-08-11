@@ -41,7 +41,7 @@ qmetrix-pdf-annotator-frontend/
 │   │           ├── PDFViewerCanvas.jsx # Main orchestrator for PDF view & polygon overlay
 │   │           └── ProjectFormModal.jsx# Save project metadata form modal
 │   ├── components/
-│   │   ├── DashboardGrid.jsx           # Responsive data table & project cards
+│   │   ├── SavedProjects.jsx           # Responsive data table & project cards
 │   │   └── Navbar.jsx                  # Application navigation bar
 │   ├── providers/
 │   │   └── ToastProvider.jsx           # Global notification context provider

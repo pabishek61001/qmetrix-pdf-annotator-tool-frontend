@@ -39,7 +39,7 @@ export default function Navbar({ showBack = true, title = "PDF Annotation Tool" 
                     {/* Desktop Navigation Links */}
                     <div className="hidden lg:flex items-center gap-2">
                         <Link
-                            href="/"
+                            href="/#projects-section"
                             className="flex items-center gap-1.5 text-xs font-semibold text-slate-600 hover:text-blue-600 px-3.5 py-2 rounded-xl hover:bg-slate-100 transition-colors"
                         >
                             <FolderKanban className="w-4 h-4 text-blue-600" />
