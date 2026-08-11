@@ -1,12 +1,40 @@
 'use client';
 
-import React from 'react';
-import { useRouter } from 'next/navigation';
-import { FileText, ArrowRight, Layers, Calendar, Calculator } from 'lucide-react';
+import React, { useState } from 'react';
+import Link from 'next/link';
+import { FileText, ArrowRight, Layers, Calendar, Calculator, Trash2, AlertTriangle, X } from 'lucide-react';
 
 export default function DashboardGrid({ projects }) {
-    const router = useRouter();
     const safeProjects = Array.isArray(projects) ? projects : [];
+
+    // State to manage custom delete confirmation modal
+    const [projectToDelete, setProjectToDelete] = useState(null);
+    const [isDeleting, setIsDeleting] = useState(false);
+
+    // Reusable delete execution function
+    const confirmAndDelete = async () => {
+        if (!projectToDelete) return;
+
+        try {
+            setIsDeleting(true);
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/projects/${projectToDelete._id}`, {
+                method: 'DELETE',
+            });
+
+            if (res.ok) {
+                window.location.reload();
+            } else {
+                alert('Failed to delete project from server.');
+                setIsDeleting(false);
+                setProjectToDelete(null);
+            }
+        } catch (err) {
+            console.error('Error deleting project:', err);
+            alert('An error occurred while deleting the project.');
+            setIsDeleting(false);
+            setProjectToDelete(null);
+        }
+    };
 
     if (safeProjects.length === 0) {
         return (
@@ -83,13 +111,24 @@ export default function DashboardGrid({ projects }) {
                                         </div>
                                     </td>
                                     <td className="py-4 px-6 text-right">
-                                        <button
-                                            onClick={() => router.push(`/workspace?id=${project._id}`)}
-                                            className="inline-flex items-center gap-1.5 bg-slate-900 hover:bg-blue-600 text-white font-semibold text-xs px-4 py-2 rounded-xl transition-all shadow-xs cursor-pointer group-hover:shadow-md"
-                                        >
-                                            Reopen Project
-                                            <ArrowRight className="w-3.5 h-3.5" />
-                                        </button>
+                                        <div className="flex items-center justify-end gap-2">
+                                            <button
+                                                type="button"
+                                                onClick={() => setProjectToDelete(project)}
+                                                title="Delete Project"
+                                                className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all cursor-pointer"
+                                            >
+                                                <Trash2 className="w-4 h-4" />
+                                            </button>
+
+                                            <Link
+                                                href={`/workspace?id=${project._id}`}
+                                                className="inline-flex items-center gap-1.5 bg-slate-900 hover:bg-blue-600 text-white font-semibold text-xs px-4 py-2 rounded-xl transition-all shadow-xs cursor-pointer group-hover:shadow-md"
+                                            >
+                                                Reopen
+                                                <ArrowRight className="w-3.5 h-3.5" />
+                                            </Link>
+                                        </div>
                                     </td>
                                 </tr>
                             );
@@ -136,18 +175,75 @@ export default function DashboardGrid({ projects }) {
                                     <span className="text-slate-400 block">{formattedDate}</span>
                                     <span className="font-bold text-slate-700">{totalArea.toFixed(1)} sq.m total</span>
                                 </div>
-                                <button
-                                    onClick={() => router.push(`/workspace?id=${project._id}`)}
-                                    className="flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2.5 rounded-xl transition-all shadow-xs cursor-pointer"
-                                >
-                                    Reopen
-                                    <ArrowRight className="w-3.5 h-3.5" />
-                                </button>
+                                <div className="flex items-center gap-2">
+                                    <button
+                                        type="button"
+                                        onClick={() => setProjectToDelete(project)}
+                                        className="p-2.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all cursor-pointer border border-slate-200/60"
+                                    >
+                                        <Trash2 className="w-4 h-4" />
+                                    </button>
+
+                                    <Link
+                                        href={`/workspace?id=${project._id}`}
+                                        className="flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2.5 rounded-xl transition-all shadow-xs cursor-pointer"
+                                    >
+                                        Reopen
+                                        <ArrowRight className="w-3.5 h-3.5" />
+                                    </Link>
+                                </div>
                             </div>
                         </div>
                     );
                 })}
             </div>
+
+            {/* Custom Delete Confirmation Modal Popup */}
+            {projectToDelete && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
+                    <div className="bg-white w-full max-w-md rounded-3xl p-6 sm:p-7 shadow-2xl border border-slate-100 space-y-6">
+                        <div className="flex items-center justify-between">
+                            <div className="w-12 h-12 rounded-2xl bg-red-50 text-red-600 flex items-center justify-center shrink-0">
+                                <AlertTriangle className="w-6 h-6" />
+                            </div>
+                            <button
+                                onClick={() => setProjectToDelete(null)}
+                                className="text-slate-400 hover:text-slate-600 p-1.5 rounded-full hover:bg-slate-100 transition-colors"
+                            >
+                                <X className="w-5 h-5" />
+                            </button>
+                        </div>
+
+                        <div className="space-y-2">
+                            <h3 className="text-lg font-extrabold text-slate-900">
+                                Delete Blueprint project :  {projectToDelete.name}?
+                            </h3>
+                            <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
+                                Are you sure you want to delete <span className="font-bold text-slate-900">"{projectToDelete.name}"</span>? This action is permanent and will remove all associated room takeoffs from the cloud database.
+                            </p>
+                        </div>
+
+                        <div className="flex items-center gap-3 pt-2">
+                            <button
+                                type="button"
+                                onClick={() => setProjectToDelete(null)}
+                                disabled={isDeleting}
+                                className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-3 px-4 rounded-xl text-xs sm:text-sm transition-all cursor-pointer"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                type="button"
+                                onClick={confirmAndDelete}
+                                disabled={isDeleting}
+                                className="flex-1 bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-4 rounded-xl text-xs sm:text-sm transition-all shadow-md shadow-red-600/20 cursor-pointer disabled:opacity-50 flex items-center justify-center gap-2"
+                            >
+                                {isDeleting ? 'Deleting...' : 'Yes, Delete Project'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

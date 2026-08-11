@@ -30,7 +30,7 @@ export default async function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-slate-100 flex flex-col antialiased selection:bg-blue-600 selection:text-white">
-      <Navbar showBack={false} title="QMetrix Enterprise Takeoff Dashboard" />
+      <Navbar showBack={false} title="QMetrix Cost Consultancy & QS Systems" />
 
       <main className="flex-1 max-w-[1600px] w-full mx-auto p-4 sm:p-6 lg:p-8 flex flex-col gap-8">
 

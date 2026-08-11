@@ -10,7 +10,7 @@ export default function Navbar({ showBack = true, title = "PDF Annotation Tool" 
     return (
         <>
             <header className="bg-white/90 backdrop-blur-md border-b border-slate-200 sticky top-0 z-40 shadow-xs transition-all">
-                <div className="max-w-[1600px] mx-auto px-4 sm:px-6 h-16 py-10 flex items-center justify-between gap-2">
+                <div className="max-w-[1600px] mx-auto px-4 sm:px-6 h-16 py-5 md:py-10 flex items-center justify-between gap-2">
 
                     {/* Left Side: Navigation Back & App Identity */}
                     <div className="flex items-center gap-2 sm:gap-4 min-w-0">
@@ -30,8 +30,8 @@ export default function Navbar({ showBack = true, title = "PDF Annotation Tool" 
                                 <Layers className="w-4 h-4 sm:w-5 sm:h-5" />
                             </div>
                             <div className="min-w-0">
-                                <h1 className="font-bold text-slate-900 text-xs sm:text-sm tracking-tight truncate">{title}</h1>
-                                <p className="text-[10px] sm:text-[11px] text-slate-500 font-medium truncate hidden sm:block">QMetrix Cost Consultancy & QS Systems</p>
+                                <h1 className="font-bold text-slate-900 text-sm sm:text-sm tracking-tight truncate">QMetrix Enterprise Dashboard</h1>
+                                <p className="text-[10px] sm:text-[11px] text-slate-500 font-medium truncate ">{title}</p>
                             </div>
                         </div>
                     </div>

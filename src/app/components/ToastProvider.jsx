@@ -26,7 +26,7 @@ export function ToastProvider({ children }) {
         <ToastContext.Provider value={{ addToast }}>
             {children}
             {/* Professional Toast Notification Stack */}
-            <div className="fixed top-6 right-6 z-50 flex flex-col gap-3 max-w-sm w-full px-4 pointer-events-none">
+            <div className="fixed top-6 right-0 md:right-6 z-50 flex flex-col gap-3 w-full md:max-w-sm  px-4 pointer-events-none">
                 {toasts.map((toast) => {
                     const isSuccess = toast.type === 'success';
                     const isWarning = toast.type === 'warning';

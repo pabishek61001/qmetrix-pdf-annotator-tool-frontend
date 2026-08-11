@@ -40,10 +40,10 @@ export default function ProjectFormModal({ isOpen, onClose, onSave, isSaving, in
 
         // If it's a completely new project AND no file is attached, throw error. 
         // If initialData exists, the project already has a stored pdfUrl in the cloud, so pdfFile is optional.
-        if (!initialData && !pdfFile) {
-            addToast('Please upload a PDF blueprint file.', 'error');
-            return;
-        }
+        // if (!initialData && !pdfFile) {
+        //     addToast('Please upload a PDF blueprint file.', 'error');
+        //     return;
+        // }
 
         onSave({ name, description, pdfFile });
     };
@@ -115,7 +115,7 @@ export default function ProjectFormModal({ isOpen, onClose, onSave, isSaving, in
                         />
                     </div>
 
-                    <div>
+                    <div className='hidden'>
                         <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
                             Upload PDF Blueprint File (Max 500 KB) {initialData ? <span className="text-slate-400 font-normal">(Optional if unchanged)</span> : <span className="text-red-500">*</span>}
                         </label>
