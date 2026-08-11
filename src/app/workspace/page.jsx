@@ -230,28 +230,28 @@ function WorkspaceContent() {
                                 {/* Workflow Title Steps */}
                                 <div className="flex flex-wrap items-center gap-2 sm:gap-3.5">
                                     {/* Step 1 */}
-                                    <div className="flex items-center gap-2 px-2 py-1 text-xl lg:text-2xl font-semibold md:font-extrabold text-slate-300">
+                                    <div className="flex items-center gap-2 px-2 py-1 text-xl lg:text-2xl font-semibold md:font-extrabold text-slate-400">
                                         <FileUp className="w-5 h-5 text-slate-400 shrink-0" />
-                                        <span data-aos="fade-out"> Upload PDF</span>
+                                        <span className="text-slate-200 font-bold">Upload</span>pdf
                                     </div>
 
                                     <span className="text-slate-600 font-bold hidden sm:inline text-lg">→</span>
 
                                     {/* Step 2 */}
-                                    <div className="flex items-center gap-2 px-2 py-1 text-xl lg:text-2xl font-semibold md:font-extrabold text-slate-300">
+                                    <div className="flex items-center gap-2 px-2 py-1 text-xl lg:text-2xl font-semibold md:font-extrabold text-slate-400">
                                         <PencilRuler className="w-5 h-5 text-slate-400 shrink-0" />
-                                        <span data-aos="fade-out"> Map & Add Room</span>
+                                        <span>Map &  </span> <span className="text-slate-200 font-bold" >Add</span>Room
                                     </div>
 
                                     <span className="text-slate-600 font-bold hidden sm:inline text-lg">→</span>
 
                                     {/* Step 3 */}
-                                    <div className="flex items-center gap-2 px-2 py-1 text-xl lg:text-2xl font-semibold md:font-extrabold text-slate-300">
+                                    <div className="flex items-center gap-2 px-2 py-1 text-xl lg:text-2xl font-semibold md:font-extrabold text-slate-400">
                                         <Save className="w-5 h-5 text-slate-400 shrink-0" />
-                                        <span data-aos="fade-out"> Final Save</span>
+                                        <span>Final</span> <span className="text-slate-200 font-bold">Save</span>
                                     </div>
                                 </div>
-                                <p className="text-xs sm:text-sm text-slate-500 font-medium leading-relaxed max-w-xl">
+                                <p className="text-sm sm:text-sm text-slate-500 font-medium leading-relaxed max-w-xl">
                                     Execute precise polygon takeoffs, calculate real-time surface areas, and generate bills of quantities seamlessly.
                                 </p>
                             </div>

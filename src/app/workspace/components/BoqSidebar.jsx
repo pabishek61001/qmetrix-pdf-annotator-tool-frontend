@@ -25,7 +25,7 @@ export default function BoqSidebar({ isDrawing, roomName, setRoomName, handleSav
                             <Calculator className="w-4 h-4" />
                         </div>
                         <div>
-                            <h2 className="font-extrabold text-slate-900 text-sm sm:text-base tracking-tight">
+                            <h2 className="font-extrabold text-slate-900 text-md sm:text-md tracking-tight">
                                 Bill of Quantities
                             </h2>
                             <p className="text-[11px] text-slate-400 font-medium">Real-time Takeoff Estimator</p>
@@ -44,7 +44,7 @@ export default function BoqSidebar({ isDrawing, roomName, setRoomName, handleSav
                 </div>
 
                 {/* Active Drawing & Room Naming Input Box - Strictly All in a Single Row */}
-                <div className="bg-gradient-to-br from-blue-50/90 to-indigo-50/50 border border-blue-200/80 p-3 rounded-2xl mb-5 shadow-xs flex flex-nowrap items-center gap-2.5 w-full">
+                <div className="bg-gradient-to-br from-blue-50/90 to-indigo-50/50  p-3 rounded-2xl mb-5 shadow-xs flex flex-nowrap items-center gap-2.5 w-full">
                     <input
                         type="text"
                         placeholder="Room Name (e.g. Lobby)"
@@ -87,11 +87,11 @@ export default function BoqSidebar({ isDrawing, roomName, setRoomName, handleSav
                                     <div className={`absolute left-0 top-0 bottom-0 w-1.5 ${accentColor}`}></div>
                                     <div className="min-w-0 pl-2 pr-2">
                                         <div className="flex items-center gap-2">
-                                            <span className="text-[10px] font-bold text-slate-400">#{idx + 1}</span>
-                                            <h4 className="font-bold text-slate-900 text-xs truncate">{ann.roomName}</h4>
+                                            <span className="text-xs font-bold text-slate-400">#{idx + 1}</span>
+                                            <h4 className="font-bold text-slate-900 text-md truncate">{ann.roomName}</h4>
                                         </div>
                                         <div className="flex items-center gap-2 mt-1">
-                                            <span className="text-[11px] text-blue-700 font-extrabold bg-blue-50 px-2 py-0.5 rounded-md border border-blue-100">
+                                            <span className="text-xs text-blue-700 font-extrabold bg-blue-50 px-2 py-0.5 rounded-md border border-blue-100">
                                                 {ann.area} sq.m
                                             </span>
                                         </div>
@@ -101,7 +101,7 @@ export default function BoqSidebar({ isDrawing, roomName, setRoomName, handleSav
                                         className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors cursor-pointer shrink-0"
                                         title="Remove Room Takeoff"
                                     >
-                                        <Trash2 className="w-4 h-4" />
+                                        <Trash2 className="w-5 h-5 text-red-400" />
                                     </button>
                                 </div>
                             );

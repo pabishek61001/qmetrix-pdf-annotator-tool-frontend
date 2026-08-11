@@ -38,12 +38,19 @@ export default function DashboardGrid({ projects }) {
 
     if (safeProjects.length === 0) {
         return (
-            <div className="text-center py-20 bg-white rounded-3xl border border-dashed border-slate-300 p-8 shadow-xs">
+            <div className="text-center py-20 bg-white rounded-3xl border border-dashed border-slate-300 p-4 md:p-8 shadow-xs">
                 <FileText className="w-16 h-16 text-slate-400 mx-auto mb-4" />
-                <h3 className="text-base font-bold text-slate-900">No saved projects found</h3>
-                <p className="text-slate-500 text-xs sm:text-sm max-w-sm mx-auto mt-1 mb-6">
-                    Get started by uploading a floor plan PDF and mapping room markings.
+                <h3 className="text-base font-bold text-slate-500">No saved projects found</h3>
+                <p className="text-slate-500 text-xs sm:text-sm max-w-lg mx-auto mt-1 mb-6">
+                    Get started by
+                    <strong className="font-bold text-black  px-1.5 py-0.5 rounded ">uploading</strong>
+                    a floor plan PDF,
+                    <strong className="font-bold text-black  px-1.5 py-0.5 rounded">mapping</strong>
+                    room markings, and finally
+                    <strong className="font-bold text-black  px-1.5 py-0.5 rounded">saving</strong>
+                    to create your project.
                 </p>
+
                 {/* Right Side: Action CTA */}
                 <Link
                     href="/workspace"
@@ -57,7 +64,7 @@ export default function DashboardGrid({ projects }) {
     }
 
     return (
-        <div className="w-full">
+        <div className="w-full mb-10">
             {/* Desktop & Tablet Table View */}
             <div className="hidden md:block bg-white rounded-3xl border border-slate-200/80 shadow-xs overflow-hidden">
                 <table className="w-full text-left border-collapse">
