@@ -111,9 +111,9 @@ export default async function DashboardPage() {
         {/* Section Header */}
         <div className="flex justify-between items-center pt-2">
           <h2 className="text-base sm:text-lg font-bold text-slate-900">
-            Saved Blueprint Projects ({projects.length})
+            Saved Projects ({projects.length})
           </h2>
-          <span className="text-xs font-medium text-slate-500">
+          <span className="text-xs hidden sm:block font-medium text-slate-500">
             Showing synced cloud database records
           </span>
         </div>
