@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Trash2, Calculator, Sparkles, CheckCircle2, RotateCcw, IndianRupee, X, Layers } from 'lucide-react';
+import { Trash2, Calculator, CheckCircle2, RotateCcw, IndianRupee, X, Layers } from 'lucide-react';
 
 const ROOM_ACCENTS = [
     'bg-blue-500',
@@ -13,21 +13,10 @@ const ROOM_ACCENTS = [
     'bg-teal-500',
 ];
 
-export default function BoqSidebar({
-    isDrawing,
-    roomName,
-    setRoomName,
-    handleSaveRoom,
-    setCurrentPoints,
-    currentPointsLength = 0,
-    annotations,
-    handleDeleteAnnotation,
-    totalFloorArea,
-    estimatedCost,
-    onClose
-}) {
+export default function BoqSidebar({ isDrawing, roomName, setRoomName, handleSaveRoom, setCurrentPoints, currentPointsLength = 0, annotations, handleDeleteAnnotation, totalFloorArea, estimatedCost, onClose }) {
     return (
         <div className="bg-white/95 backdrop-blur-xl border border-slate-200/80 px-5 sm:px-5 py-5 shadow-2xl flex flex-col justify-between h-full min-h-[500px]">
+
             <div>
                 {/* Header */}
                 <div className="flex items-center justify-between mb-2 pb-4 border-b border-slate-100">
@@ -57,7 +46,6 @@ export default function BoqSidebar({
                 {/* Active Drawing & Room Naming Input Box - Strictly All in a Single Row */}
                 <div className="bg-gradient-to-br from-blue-50/90 to-indigo-50/50 border border-blue-200/80 p-3 rounded-2xl mb-5 shadow-xs flex flex-nowrap items-center gap-2.5 w-full">
                     <input
-                        autoFocus
                         type="text"
                         placeholder="Room Name (e.g. Lobby)"
                         value={roomName}

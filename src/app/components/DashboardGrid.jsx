@@ -217,15 +217,15 @@ export default function DashboardGrid({ projects }) {
                                 onClick={() => setProjectToDelete(null)}
                                 className="text-slate-400 hover:text-slate-600 p-1.5 rounded-full hover:bg-slate-100 transition-colors"
                             >
-                                <X className="w-5 h-5" />
+                                <X className="w-5 h-5 cursor-pointer" />
                             </button>
                         </div>
 
                         <div className="space-y-2">
                             <h3 className="text-lg font-extrabold text-slate-900">
-                                Delete Blueprint project :  {projectToDelete.name}?
+                                Confirm your deletion
                             </h3>
-                            <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
+                            <p className="text-slate-600 text-sm sm:text-sm leading-relaxed">
                                 Are you sure you want to delete <span className="font-bold text-slate-900">"{projectToDelete.name}"</span>? This action is permanent and will remove all associated room takeoffs from the cloud database.
                             </p>
                         </div>

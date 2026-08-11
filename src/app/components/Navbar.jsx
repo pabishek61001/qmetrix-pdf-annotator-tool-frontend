@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { Layers, ArrowLeft, ShieldCheck, FolderKanban, PlusCircle, Menu, X } from 'lucide-react';
+import { Layers, ArrowLeft, ShieldCheck, FolderKanban, PlusCircle, Menu, X, DraftingCompass } from 'lucide-react';
 
 export default function Navbar({ showBack = true, title = "PDF Annotation Tool" }) {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -27,7 +27,7 @@ export default function Navbar({ showBack = true, title = "PDF Annotation Tool" 
 
                         <div className="flex items-center gap-2.5 min-w-0">
                             <div className="bg-blue-600 text-white p-2 rounded-xl shadow-sm shadow-blue-500/20 shrink-0">
-                                <Layers className="w-4 h-4 sm:w-5 sm:h-5" />
+                                <DraftingCompass className="w-4 h-4 sm:w-5 sm:h-5" />
                             </div>
                             <div className="min-w-0">
                                 <h1 className="font-bold text-slate-900 text-sm sm:text-sm tracking-tight truncate">QMetrix Enterprise Dashboard</h1>

@@ -3,11 +3,11 @@
 import React, { useState, useEffect, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Navbar from '../components/Navbar';
-import PDFViewerCanvas from '../components/PDFViewerCanvas';
-import ProjectFormModal from '../components/ProjectFormModal';
-import BoqSidebar from '@/app/components/BoqSidebar';
-import { Save, Loader2, Calculator, PanelRightClose, PanelRightOpen, SidebarOpen, FileUp, PencilRuler, AlertCircle } from 'lucide-react';
-import { useToast } from '@/app/components/ToastProvider';
+import PDFViewerCanvas from './components/PDFViewerCanvas';
+import ProjectFormModal from './components/ProjectFormModal';
+import BoqSidebar from '@/app/workspace/components/BoqSidebar';
+import { Save, Loader2, FileUp, PencilRuler, AlertCircle } from 'lucide-react';
+import { useToast } from '@/app/providers/ToastProvider';
 import { calculatePolygonArea } from '@/app/utils/geometryUtils';
 
 import AOS from 'aos';
@@ -43,7 +43,8 @@ function WorkspaceContent() {
         });
     }, []);
 
-    // 🌟 1. Fetch project details & initialize baseline session comparison
+
+    // 1. Fetch project details & initialize baseline session comparison
     useEffect(() => {
         if (!projectId) return;
 
@@ -93,7 +94,8 @@ function WorkspaceContent() {
         return () => { isMounted = false; };
     }, [projectId, router, addToast]);
 
-    // 🌟 2. Continuous auto-save draft to session memory on every annotation change
+
+    // 2. Continuous auto-save draft to session memory on every annotation change
     useEffect(() => {
         if (!projectId) return;
         // Only save draft if annotations exist
@@ -102,13 +104,15 @@ function WorkspaceContent() {
         }
     }, [annotations, projectId]);
 
-    // 🌟 3. Handle clearing draft session storage once project is successfully saved/synced
+
+    // 3. Handle clearing draft session storage once project is successfully saved/synced
     const clearDraftSession = () => {
         if (projectId) {
             sessionStorage.removeItem(`qmetrix_draft_${projectId}`);
             sessionStorage.removeItem(`qmetrix_baseline_${projectId}`);
         }
     };
+
 
     const handleSaveRoom = () => {
         if (!roomName.trim() || currentPoints.length < 3) {
@@ -210,7 +214,6 @@ function WorkspaceContent() {
                 ) : (
                     <>
 
-
                         {/* Premium Enterprise Header & Action Bar */}
                         <div className=" relative overflow-hidden rounded-3xl border border-blue-500/30 bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 p-5 sm:p-7 shadow-2xl text-white flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
                             {/* Soft Decorative Ambient Glow & Background Accents */}
@@ -273,8 +276,6 @@ function WorkspaceContent() {
 
                             </div>
                         </div>
-
-
 
                         {/* Core Workspace Canvas */}
                         <div className="flex-1 flex flex-col bg-white rounded-3xl border border-slate-200/80 shadow-xs p-2 sm:p-4">

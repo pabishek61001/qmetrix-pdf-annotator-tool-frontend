@@ -15,7 +15,7 @@ export function ToastProvider({ children }) {
         // Automatically remove after 5 seconds
         setTimeout(() => {
             setToasts((prev) => prev.filter((t) => t.id !== id));
-        }, 5000);
+        }, 2000);
     }, []);
 
     const removeToast = useCallback((id) => {
@@ -58,7 +58,7 @@ export function ToastProvider({ children }) {
                                         }`}>
                                         {toast.type === 'success' ? 'Success Notice' : toast.type === 'warning' ? 'System Action' : 'Action Failed'}
                                     </p>
-                                    <p className="text-[11px] font-medium text-slate-700 mt-0.5">{toast.message}</p>
+                                    <p className="text-[12px] font-medium text-slate-700 mt-0.5">{toast.message}</p>
                                 </div>
                             </div>
                             <button

@@ -2,8 +2,8 @@
 
 import React, { useRef } from 'react';
 import dynamic from 'next/dynamic';
-import { Layers, PanelRightClose, PanelRightOpen, Calculator, Save, MousePointerClick, File } from 'lucide-react';
-import { useToast } from './ToastProvider';
+import { PanelRightClose, PanelRightOpen, Calculator, Save, MousePointerClick, File } from 'lucide-react';
+import { useToast } from '../../providers/ToastProvider';
 
 const CanvasViewer = dynamic(() => import('./CanvasViewer'), {
     ssr: false,
@@ -14,21 +14,9 @@ const CanvasViewer = dynamic(() => import('./CanvasViewer'), {
     )
 });
 
-export default function PDFViewerCanvas({
-    pdfUrl,
-    setPdfUrl,
-    onPdfSelected,
-    annotations,
-    setAnnotations,
-    isSidebarOpen,
-    setIsSidebarOpen,
-    onSaveClick,
-    projectId,
-    isDrawing,
-    setIsDrawing,
-    currentPoints,
-    setCurrentPoints
-}) {
+export default function PDFViewerCanvas({ pdfUrl, setPdfUrl, onPdfSelected, annotations, setAnnotations, isSidebarOpen, setIsSidebarOpen, onSaveClick, projectId, isDrawing, setIsDrawing, currentPoints, setCurrentPoints }) {
+
+
     const { addToast } = useToast();
     const canvasRef = useRef(null);
     const mapperButtonRef = useRef(null);
@@ -58,8 +46,8 @@ export default function PDFViewerCanvas({
     };
 
     return (
-        <div className="flex flex-col gap-4 sm:gap-6 w-full h-full relative" ref={mapperButtonRef}
-        >
+        <div className="flex flex-col gap-4 sm:gap-6 w-full h-full relative" ref={mapperButtonRef}>
+
             <div className="w-full bg-white rounded-2xl sm:rounded-3xlflex flex-col relative ">
 
                 {/* Sticky Toolbar with responsive mobile icon/text layout */}
@@ -86,20 +74,19 @@ export default function PDFViewerCanvas({
                                 : 'bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-700 hover:from-blue-500 hover:to-purple-600 text-white shadow-indigo-900/30 border border-blue-400/35'
                                 }`}
                         >
-                            {isDrawing ? (
-                                <span className="relative flex h-2.5 w-2.5 items-center justify-center shrink-0">
-                                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-200 opacity-75"></span>
-                                    <span className="relative inline-flex h-2 w-2 rounded-full bg-white"></span>
-                                </span>
-                            ) : (
-                                <span className="relative flex h-2 w-2 rounded-full bg-cyan-300 shrink-0 shadow-[0_0_8px_#38bdf8]"></span>
-                            )}
+                            {/* {isDrawing && ( */}
+                            <span className="relative flex h-2.5 w-2.5 items-center justify-center shrink-0">
+                                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-200 opacity-75"></span>
+                                <span className="relative inline-flex h-2 w-2 rounded-full bg-white"></span>
+                            </span>
+                            {/* )} */}
 
                             {/* Shortened text on mobile screens, full descriptive text on desktop */}
                             <span className="truncate flex items-center gap-1.5 drop-shadow-xs">
-                                <MousePointerClick className="w-3.5 h-3.5" />
                                 <span className="sm:hidden">{isDrawing ? 'Mapping...' : 'One Click Room Mapper'}</span>
                                 <span className="hidden sm:inline">{isDrawing ? 'Mapping Active: Click Room Vertices' : 'One Click Room Mapper'}</span>
+                                <MousePointerClick className="w-3.5 h-3.5" />
+
                             </span>
                         </button>
 
@@ -172,6 +159,7 @@ export default function PDFViewerCanvas({
                     />
                 </div>
             </div>
+
         </div>
     );
 }

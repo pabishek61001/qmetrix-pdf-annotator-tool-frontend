@@ -1,122 +1,7 @@
-// 'use client';
-
-// import React from 'react';
-// import { Layers, MoveHorizontal } from 'lucide-react';
-
-// // Distinct professional color palette for different room annotations
-// const ROOM_COLORS = [
-//     { fill: 'fill-blue-600/30', stroke: 'stroke-blue-700', badge: 'bg-blue-900/95 border-blue-400/30' },
-//     { fill: 'fill-emerald-600/30', stroke: 'stroke-emerald-700', badge: 'bg-emerald-900/95 border-emerald-400/30' },
-//     { fill: 'fill-amber-600/30', stroke: 'stroke-amber-700', badge: 'bg-amber-900/95 border-amber-400/30' },
-//     { fill: 'fill-purple-600/30', stroke: 'stroke-purple-700', badge: 'bg-purple-900/95 border-purple-400/30' },
-//     { fill: 'fill-rose-600/30', stroke: 'stroke-rose-700', badge: 'bg-rose-900/95 border-rose-400/30' },
-//     { fill: 'fill-indigo-600/30', stroke: 'stroke-indigo-700', badge: 'bg-indigo-900/95 border-indigo-400/30' },
-//     { fill: 'fill-teal-600/30', stroke: 'stroke-teal-700', badge: 'bg-teal-900/95 border-teal-400/30' },
-// ];
-
-// export default function CanvasViewer({
-//     canvasRef,
-//     handleCanvasClick,
-//     pdfUrl,
-//     isDrawing,
-//     annotations,
-//     currentPoints
-// }) {
-//     return (
-//         <div className="w-full flex flex-col relative">
-//             {/* Active Mapping Banner */}
-//             <div className="mb-3  text-amber-800 text-xs font-semibold px-3 sm:px-4 py-2 rounded-xl flex items-center justify-end gap-2 shadow-2xs shrink-0 text-center">
-//                 <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse shrink-0"></span>
-//                 <span>{isDrawing ? 'Mapping Active: Click room boundaries directly on the floor plan.' : pdfUrl ? 'Ready. Click "One Click Room Mapper" to start.' : 'Please upload a PDF floor plan to begin.'}</span>
-//             </div>
-
-//             {/* Mobile Scroll Instruction Pill */}
-//             {pdfUrl && (
-//                 <div className="flex sm:hidden items-center justify-center gap-1.5 text-[11px] text-slate-500 mb-2 font-medium bg-slate-100 py-1 rounded-lg">
-//                     <MoveHorizontal className="w-3.5 h-3.5 text-blue-600 animate-pulse" />
-//                     <span>Swipe horizontally to view full blueprint</span>
-//                 </div>
-//             )}
-
-//             {/* Fully Scrollable Mobile Container with smooth touch momentum */}
-//             <div className="w-full bg-slate-900/5 border-2 border-dashed border-slate-300 rounded-2xl p-2 sm:p-4 flex items-center justify-start sm:justify-center overflow-x-auto overflow-y-hidden shadow-inner touch-pan-x [-webkit-overflow-scrolling:touch]">
-//                 <div
-//                     ref={canvasRef}
-//                     onClick={handleCanvasClick}
-//                     className="relative bg-white shadow-xl rounded-xl cursor-crosshair shrink-0 overflow-hidden"
-//                     style={{ width: '1000px', height: '650px', background: '#ffffff', minWidth: '1000px' }}
-//                 >
-//                     {pdfUrl ? (
-//                         <object
-//                             data={`${pdfUrl.startsWith('blob:') || pdfUrl.startsWith('http') ? pdfUrl : `${process.env.NEXT_PUBLIC_API_URL}${pdfUrl}`}#toolbar=0&navpanes=0&scrollbar=0`}
-//                             type="application/pdf"
-//                             className="absolute inset-0 w-full h-full pointer-events-none z-0 select-none block overflow-hidden"
-//                         >
-//                             <embed
-//                                 src={`${pdfUrl.startsWith('blob:') || pdfUrl.startsWith('http') ? pdfUrl : `${process.env.NEXT_PUBLIC_API_URL}${pdfUrl}`}`}
-//                                 type="application/pdf"
-//                                 className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-hidden"
-//                             />
-//                         </object>
-//                     ) : (
-//                         <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center z-20 bg-white">
-//                             <Layers className="w-12 h-12 text-slate-400 mx-auto mb-3 animate-bounce" />
-//                             <p className="font-bold text-slate-800 text-sm">No PDF Blueprint Loaded</p>
-//                             <p className="text-xs text-slate-500 mt-1 max-w-xs mx-auto">Upload the floor plan PDF using the button above to begin room takeoffs.</p>
-//                         </div>
-//                     )}
-
-//                     {/* SVG Polygon Takeoff Overlay with distinct rotating colors */}
-//                     <svg className="absolute inset-0 w-full h-full pointer-events-none z-10 overflow-hidden">
-//                         {annotations.map((ann, idx) => {
-//                             const colorScheme = ROOM_COLORS[idx % ROOM_COLORS.length];
-
-//                             return (
-//                                 <g key={idx}>
-//                                     <polygon
-//                                         points={(ann.points || []).map((p) => `${p.x * 1000},${p.y * 650}`).join(' ')}
-//                                         className={`${colorScheme.fill} ${colorScheme.stroke} stroke-2 hover:opacity-80 transition-all pointer-events-auto`}
-//                                     />
-//                                     {ann.points && ann.points.length > 0 && (
-//                                         <foreignObject x={(ann.points[0].x * 1000) - 10} y={(ann.points[0].y * 650) - 32} width="160" height="45">
-//                                             <div className={`${colorScheme.badge} backdrop-blur-xs text-white text-[11px] font-bold px-2.5 py-1.5 rounded-lg shadow-lg truncate border`}>
-//                                                 {ann.roomName}: {ann.area} sq.m
-//                                             </div>
-//                                         </foreignObject>
-//                                     )}
-//                                 </g>
-//                             );
-//                         })}
-
-//                         {/* Active Drawing Lines */}
-//                         {currentPoints.length > 0 && (
-//                             <>
-//                                 <polyline
-//                                     points={currentPoints.map((p) => `${p.x * 1000},${p.y * 650}`).join(' ')}
-//                                     className="fill-none stroke-blue-600 stroke-2 stroke-dasharray-4"
-//                                 />
-//                                 {currentPoints.map((p, idx) => (
-//                                     <circle
-//                                         key={idx}
-//                                         cx={p.x * 1000}
-//                                         cy={p.y * 650}
-//                                         r="6"
-//                                         className="fill-blue-600 stroke-white stroke-2 shadow-sm"
-//                                     />
-//                                 ))}
-//                             </>
-//                         )}
-//                     </svg>
-//                 </div>
-//             </div>
-//         </div>
-//     );
-// }
-
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { Layers, MoveHorizontal } from 'lucide-react';
+import { Layers } from 'lucide-react';
 import * as pdfjsLib from 'pdfjs-dist';
 
 // Configure worker for pdfjs-dist
@@ -134,17 +19,13 @@ const ROOM_COLORS = [
     { fill: 'fill-teal-600/30', stroke: 'stroke-teal-700', badge: 'bg-teal-900/95 border-teal-400/30' },
 ];
 
-export default function CanvasViewer({
-    canvasRef,
-    handleCanvasClick,
-    pdfUrl,
-    isDrawing,
-    annotations,
-    currentPoints
-}) {
+export default function CanvasViewer({ canvasRef, handleCanvasClick, pdfUrl, isDrawing, annotations, currentPoints }) {
+
+
     const [isMobile, setIsMobile] = useState(false);
-    const [mobileCanvasData, setMobileCanvasData] = useState(null); // stores { url, height }
+    const [mobileCanvasData, setMobileCanvasData] = useState(null);
     const [activeHoverIdx, setActiveHoverIdx] = useState(null);
+
 
     // Detect mobile device on mount
     useEffect(() => {
@@ -155,6 +36,7 @@ export default function CanvasViewer({
         window.addEventListener('resize', checkMobile);
         return () => window.removeEventListener('resize', checkMobile);
     }, []);
+
 
     // Render PDF to a fast image data URL on mobile preserving true PDF aspect ratio
     useEffect(() => {
@@ -173,10 +55,7 @@ export default function CanvasViewer({
                 const pdfDoc = await loadingTask.promise;
                 const page = await pdfDoc.getPage(1);
 
-                // Base viewport at scale 1.0 to read natural dimensions
                 const unscaledViewport = page.getViewport({ scale: 1.0 });
-
-                // Set a fixed logical width (1000px) and compute proportional height dynamically
                 const targetWidth = 1000;
                 const calculatedHeight = Math.round((unscaledViewport.height / unscaledViewport.width) * targetWidth);
 
@@ -186,7 +65,7 @@ export default function CanvasViewer({
                 const canvas = document.createElement('canvas');
                 const context = canvas.getContext('2d');
                 canvas.width = targetWidth;
-                canvas.height = calculatedHeight; // Proportional height prevents any cropping
+                canvas.height = calculatedHeight;
 
                 await page.render({ canvasContext: context, viewport }).promise;
 
@@ -205,9 +84,8 @@ export default function CanvasViewer({
         return () => { isMounted = false; };
     }, [pdfUrl, isMobile]);
 
-    const finalPdfSrc = pdfUrl && (pdfUrl.startsWith('blob:') || pdfUrl.startsWith('http'))
-        ? pdfUrl
-        : `${process.env.NEXT_PUBLIC_API_URL}${pdfUrl}`;
+
+    const finalPdfSrc = pdfUrl && (pdfUrl.startsWith('blob:') || pdfUrl.startsWith('http')) ? pdfUrl : `${process.env.NEXT_PUBLIC_API_URL}${pdfUrl}`;
 
     return (
         <div className="w-full flex flex-col relative">
@@ -217,12 +95,12 @@ export default function CanvasViewer({
                 <span>{isDrawing ? 'Mapping Active: Click room boundaries directly on the floor plan.' : pdfUrl ? 'Ready. Click "One Click Room Mapper" to start.' : 'Please upload a PDF floor plan to begin.'}</span>
             </div>
 
-            {/* Fully Scrollable Mobile Container */}
-            <div className="w-full bg-slate-900/5 border-2 border-dashed border-slate-300 rounded-2xl p-2 sm:p-4 flex items-center justify-start sm:justify-center overflow-x-auto overflow-y-hidden shadow-inner touch-pan-x [-webkit-overflow-scrolling:touch]">
+            {/* Scrollable Container with dynamic touch action behavior */}
+            <div className="w-full bg-slate-900/5 border-2 border-dashed border-slate-300 rounded-2xl p-2 sm:p-4 flex items-center justify-start sm:justify-center overflow-auto shadow-inner">
                 <div
                     ref={canvasRef}
                     onClick={handleCanvasClick}
-                    className="relative bg-white shadow-xl rounded-xl cursor-crosshair shrink-0 overflow-hidden"
+                    className={`relative bg-white shadow-xl rounded-xl shrink-0 overflow-hidden ${isDrawing ? 'cursor-crosshair touch-none' : 'cursor-default touch-auto'}`}
                     style={{
                         width: '1000px',
                         height: isMobile && mobileCanvasData?.height ? `${mobileCanvasData.height}px` : '650px',
@@ -232,7 +110,6 @@ export default function CanvasViewer({
                 >
                     {pdfUrl ? (
                         isMobile ? (
-                            // MOBILE: Renders as a crisp image canvas layer with dynamic height
                             mobileCanvasData?.url ? (
                                 <img
                                     src={mobileCanvasData.url}
@@ -245,7 +122,6 @@ export default function CanvasViewer({
                                 </div>
                             )
                         ) : (
-                            // DESKTOP: Standard lightning-fast iframe viewer
                             <iframe
                                 src={`${finalPdfSrc}#toolbar=0&navpanes=0&scrollbar=0`}
                                 title="Blueprint PDF Viewer"
@@ -269,7 +145,6 @@ export default function CanvasViewer({
 
                             return (
                                 <g key={idx}>
-                                    {/* Room Polygon Area with Hover & Click handlers */}
                                     <polygon
                                         points={(ann.points || []).map((p) => `${p.x * 1000},${p.y * currentHeight}`).join(' ')}
                                         className={`${colorScheme.fill} ${colorScheme.stroke} stroke-2 hover:opacity-90 transition-all pointer-events-auto cursor-pointer`}
@@ -281,7 +156,6 @@ export default function CanvasViewer({
                                         }}
                                     />
 
-                                    {/* Room Title & Area Badge (Hidden by default, overlays on hover or click) */}
                                     {ann.points && ann.points.length > 0 && (
                                         <foreignObject
                                             x={(ann.points[0].x * 1000) - 10}
@@ -290,7 +164,7 @@ export default function CanvasViewer({
                                             height="45"
                                             className={`transition-all duration-200 pointer-events-none ${isSelected ? 'opacity-100 z-50 scale-105' : 'opacity-0 hover:opacity-100'}`}
                                         >
-                                            <div className={`${colorScheme.badge} backdrop-blur-xs text-white text-[11px] font-bold px-2.5 py-1.5 rounded-lg shadow-xl truncate border ring-2 ring-white/20`}>
+                                            <div className={`${colorScheme.badge} backdrop-blur-xs text-white text-[11px] font-bold px-2.5 py-1.5 rounded-lg shadow-xl truncate border ring-2 ring-white/25`}>
                                                 {ann.roomName}: {ann.area} sq.m
                                             </div>
                                         </foreignObject>
@@ -304,7 +178,7 @@ export default function CanvasViewer({
                             <>
                                 <polyline
                                     points={currentPoints.map((p) => `${p.x * 1000},${p.y * (isMobile && mobileCanvasData?.height ? mobileCanvasData.height : 650)}`).join(' ')}
-                                    className="fill-none stroke-blue-600 stroke-2 stroke-dasharray-4"
+                                    className="fill-none stroke-blue-600 stroke-2"
                                 />
                                 {currentPoints.map((p, idx) => (
                                     <circle

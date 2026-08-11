@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { X, Upload, Save, Loader2 } from 'lucide-react';
-import { useToast } from './ToastProvider';
+import { useToast } from '../../providers/ToastProvider';
 
 export default function ProjectFormModal({ isOpen, onClose, onSave, isSaving, initialData }) {
 
@@ -37,13 +37,6 @@ export default function ProjectFormModal({ isOpen, onClose, onSave, isSaving, in
             addToast('Please enter description or survey notes.', 'error');
             return;
         }
-
-        // If it's a completely new project AND no file is attached, throw error. 
-        // If initialData exists, the project already has a stored pdfUrl in the cloud, so pdfFile is optional.
-        // if (!initialData && !pdfFile) {
-        //     addToast('Please upload a PDF blueprint file.', 'error');
-        //     return;
-        // }
 
         onSave({ name, description, pdfFile });
     };

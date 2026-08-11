@@ -1,6 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { ToastProvider } from "./components/ToastProvider";
+import { ToastProvider } from "./providers/ToastProvider";
 
 
 const geistSans = Geist({
@@ -14,13 +14,47 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: 'QMetrix PDF Annotation Tool',
-  description: 'Quantity Surveying & Cost Consultancy System',
+  title: {
+    default: 'QMetrix | PDF Takeoff & Quantity Surveying Suite',
+    template: '%s | QMetrix QS Engine'
+  },
+  description: 'Professional full-stack quantity surveying and cost consultancy platform for architectural PDF blueprint annotation, vertex mapping, and real-time surface area estimations.',
+  keywords: ['Quantity Surveying', 'PDF Takeoff', 'Construction Estimation', 'Blueprint Annotation', 'QMetrix', 'Cost Consultancy'],
+  authors: [{ name: 'Abishek Periasamy' }],
+  creator: 'Abishek Periasamy',
+  publisher: 'QMetrix Consultancy',
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/icon.png', type: 'image/png', sizes: '32x32' },
+    ],
+    apple: [
+      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
+    shortcut: ['/favicon.ico'],
+  },
+  openGraph: {
+    title: 'QMetrix | PDF Takeoff & Quantity Surveying Suite',
+    description: 'Execute precise polygon takeoffs, calculate real-time surface areas, and generate bills of quantities seamlessly.',
+    url: 'https://your-live-deployment-url.vercel.app',
+    siteName: 'QMetrix QS Estimation Engine',
+    locale: 'en_IN',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'QMetrix PDF Takeoff & Annotation Tool',
+    description: 'Enterprise Quantity Surveying and Cost Consultancy Web Application.',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
       <body className="bg-slate-50 text-slate-900 font-sans antialiased selection:bg-blue-600 selection:text-white">
         <ToastProvider>
           {children}

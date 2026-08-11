@@ -81,7 +81,7 @@ export default async function DashboardPage() {
             </div>
             <div>
               <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Projects</p>
-              <p className="text-xl font-extrabold text-slate-900 mt-0.5" data-aos='fade-in'>{totalProjects}</p>
+              <p className="text-xl font-extrabold text-slate-900 mt-0.5" >{totalProjects}</p>
             </div>
           </div>
 
@@ -91,7 +91,7 @@ export default async function DashboardPage() {
             </div>
             <div>
               <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">Cumulative Takeoff Area</p>
-              <p className="text-xl font-extrabold text-slate-900 mt-0.5" data-aos='fade-in'>{totalAreaAllProjects.toFixed(2)} sq.m</p>
+              <p className="text-xl font-extrabold text-slate-900 mt-0.5" >{totalAreaAllProjects.toFixed(2)} sq.m</p>
             </div>
           </div>
 
@@ -101,7 +101,7 @@ export default async function DashboardPage() {
             </div>
             <div>
               <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Fit-out Budget</p>
-              <p className="text-xl font-extrabold text-emerald-700 mt-0.5" data-aos='fade-in'>
+              <p className="text-xl font-extrabold text-emerald-700 mt-0.5" >
                 ₹ {totalEstimatedCostAll.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </p>
             </div>
