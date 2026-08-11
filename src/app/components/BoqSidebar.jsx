@@ -27,10 +27,10 @@ export default function BoqSidebar({
     onClose
 }) {
     return (
-        <div className="bg-white/95 backdrop-blur-xl border border-slate-200/80 p-5 sm:p-6 shadow-2xl flex flex-col justify-between h-full min-h-[500px]">
+        <div className="bg-white/95 backdrop-blur-xl border border-slate-200/80 px-5 sm:px-5 py-5 shadow-2xl flex flex-col justify-between h-full min-h-[500px]">
             <div>
                 {/* Header */}
-                <div className="flex items-center justify-between mb-5 pb-4 border-b border-slate-100">
+                <div className="flex items-center justify-between mb-2 pb-4 border-b border-slate-100">
                     <div className="flex items-center gap-2.5">
                         <div className="p-2 bg-blue-50 text-blue-600 rounded-xl">
                             <Calculator className="w-4 h-4" />
@@ -54,39 +54,34 @@ export default function BoqSidebar({
                     </div>
                 </div>
 
-                {/* Active Drawing & Room Naming Input Box */}
-                <div className="bg-gradient-to-br from-blue-50/90 to-indigo-50/50 border border-blue-200/80 p-4 rounded-2xl mb-5 shadow-xs">
-                    <h3 className="text-xs font-extrabold text-blue-900 uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
-                        <Sparkles className="w-3.5 h-3.5 text-blue-600 animate-pulse" />
-                        {isDrawing ? 'Mapping Active: Click Corners' : 'Room Takeoff Input'}
-                    </h3>
+                {/* Active Drawing & Room Naming Input Box - Strictly All in a Single Row */}
+                <div className="bg-gradient-to-br from-blue-50/90 to-indigo-50/50 border border-blue-200/80 p-3 rounded-2xl mb-5 shadow-xs flex flex-nowrap items-center gap-2.5 w-full">
                     <input
+                        autoFocus
                         type="text"
-                        placeholder="Enter Room Name (e.g. Lobby / Retail)"
+                        placeholder="Room Name (e.g. Lobby)"
                         value={roomName}
                         onChange={(e) => setRoomName(e.target.value)}
-                        className="w-full px-3.5 py-3 bg-white border border-blue-300 rounded-xl text-xs font-semibold mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-2xs text-slate-900 placeholder:text-slate-400"
+                        className="flex-1 min-w-[120px] px-3 py-2.5 bg-white border border-blue-300 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-2xs text-slate-900 placeholder:text-slate-400"
                     />
-                    <div className="flex gap-2">
-                        <button
-                            onClick={handleSaveRoom}
-                            className="flex-1 bg-blue-600 hover:bg-blue-700 active:scale-98 text-white text-xs font-bold py-3 px-4 rounded-xl transition-all shadow-md shadow-blue-600/20 cursor-pointer flex items-center justify-center gap-1.5"
-                        >
-                            <CheckCircle2 className="w-3.5 h-3.5" />
-                            Save Room Polygon ({currentPointsLength} pts)
-                        </button>
-                        <button
-                            onClick={() => setCurrentPoints([])}
-                            className="px-3.5 bg-white hover:bg-slate-100 text-slate-600 border border-slate-200 text-xs rounded-xl font-semibold cursor-pointer transition-colors flex items-center justify-center"
-                            title="Reset current points"
-                        >
-                            <RotateCcw className="w-4 h-4" />
-                        </button>
-                    </div>
+                    <button
+                        onClick={handleSaveRoom}
+                        className="bg-blue-600 hover:bg-blue-700 active:scale-98 text-white text-xs font-bold py-2.5 px-3.5 rounded-xl transition-all shadow-md shadow-blue-600/20 cursor-pointer flex items-center justify-center gap-1.5 shrink-0 whitespace-nowrap"
+                    >
+                        <CheckCircle2 className="w-3.5 h-3.5" />
+                        <span>Save ({currentPointsLength} pts)</span>
+                    </button>
+                    <button
+                        onClick={() => setCurrentPoints([])}
+                        className="px-3 bg-white hover:bg-slate-100 text-slate-600 border border-slate-200 text-xs py-2.5 rounded-xl font-semibold cursor-pointer transition-colors flex items-center justify-center shrink-0"
+                        title="Reset current points"
+                    >
+                        <RotateCcw className="w-4 h-4" />
+                    </button>
                 </div>
 
                 {/* Mapped Rooms List */}
-                <div className="space-y-2.5 max-h-[260px] lg:max-h-[340px] overflow-y-auto pr-1 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:bg-slate-200 [&::-webkit-scrollbar-thumb]:rounded-full">
+                <div className="space-y-2.5 max-h-[260px] lg:max-h-[260px] overflow-y-auto pr-1 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:bg-slate-200 [&::-webkit-scrollbar-thumb]:rounded-full">
                     {annotations.length === 0 ? (
                         <div className="text-center py-8 text-slate-400 bg-slate-50/60 rounded-2xl border border-dashed border-slate-200 p-4">
                             <Layers className="w-8 h-8 mx-auto mb-2 text-slate-300" />

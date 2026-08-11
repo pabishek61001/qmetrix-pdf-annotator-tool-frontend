@@ -6,9 +6,12 @@ import Navbar from '../components/Navbar';
 import PDFViewerCanvas from '../components/PDFViewerCanvas';
 import ProjectFormModal from '../components/ProjectFormModal';
 import BoqSidebar from '@/app/components/BoqSidebar';
-import { Save, Loader2, Calculator, PanelRightClose, PanelRightOpen, SidebarOpen, FileUp, PencilRuler } from 'lucide-react';
+import { Save, Loader2, Calculator, PanelRightClose, PanelRightOpen, SidebarOpen, FileUp, PencilRuler, AlertCircle } from 'lucide-react';
 import { useToast } from '@/app/components/ToastProvider';
 import { calculatePolygonArea } from '@/app/utils/geometryUtils';
+
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 function WorkspaceContent() {
     const { addToast } = useToast();
@@ -27,26 +30,20 @@ function WorkspaceContent() {
     const [currentPoints, setCurrentPoints] = useState([]);
     const [roomName, setRoomName] = useState('');
 
+    const [showUnsavedWarningModal, setShowUnsavedWarningModal] = useState(false);
+
     const searchParams = useSearchParams();
     const projectId = searchParams.get('id');
     const router = useRouter();
 
-    // Prevent accidental page refresh/loss of unsaved takeoff work
     useEffect(() => {
-        const handleBeforeUnload = (e) => {
-            // Trigger confirmation if there are unsaved annotations or active points
-            if (annotations.length > 0 || currentPoints.length > 0) {
-                e.preventDefault();
-                e.returnValue = ''; // Required for modern browsers to display confirmation dialog
-            }
-        };
+        AOS.init({
+            duration: 800, // animation duration
+            once: true,    // whether animation should happen only once
+        });
+    }, []);
 
-        window.addEventListener('beforeunload', handleBeforeUnload);
-        return () => {
-            window.removeEventListener('beforeunload', handleBeforeUnload);
-        };
-    }, [annotations, currentPoints]);
-
+    // 🌟 1. Fetch project details & initialize baseline session comparison
     useEffect(() => {
         if (!projectId) return;
 
@@ -64,9 +61,25 @@ function WorkspaceContent() {
                         resolvedUrl = `${process.env.NEXT_PUBLIC_API_URL}${resolvedUrl.startsWith('/') ? '' : '/'}${resolvedUrl}`;
                     }
                     setPdfUrl(resolvedUrl);
-                    setAnnotations(project.annotations || []);
+
+                    const serverAnnotations = project.annotations || [];
+                    setAnnotations(serverAnnotations);
                     setProjectName(project.name || '');
                     setProjectDescription(project.description || '');
+
+                    // 🌟 Save server baseline to session storage
+                    sessionStorage.setItem(`qmetrix_baseline_${projectId}`, JSON.stringify(serverAnnotations));
+
+                    // 🌟 Check if there's an existing draft that differs from the server baseline
+                    const savedDraft = sessionStorage.getItem(`qmetrix_draft_${projectId}`);
+                    if (savedDraft) {
+                        const parsedDraft = JSON.parse(savedDraft);
+                        // Compare stringified JSON lengths or contents to see if user had un-synced edits
+                        if (JSON.stringify(parsedDraft) !== JSON.stringify(serverAnnotations)) {
+                            setAnnotations(parsedDraft); // Restore un-synced local work
+                            setShowUnsavedWarningModal(true); // Trigger your custom modal!
+                        }
+                    }
                 }
             } catch (err) {
                 addToast('Failed to load saved project data.', 'error');
@@ -79,6 +92,23 @@ function WorkspaceContent() {
         fetchProjectDetails();
         return () => { isMounted = false; };
     }, [projectId, router, addToast]);
+
+    // 🌟 2. Continuous auto-save draft to session memory on every annotation change
+    useEffect(() => {
+        if (!projectId) return;
+        // Only save draft if annotations exist
+        if (annotations.length > 0) {
+            sessionStorage.setItem(`qmetrix_draft_${projectId}`, JSON.stringify(annotations));
+        }
+    }, [annotations, projectId]);
+
+    // 🌟 3. Handle clearing draft session storage once project is successfully saved/synced
+    const clearDraftSession = () => {
+        if (projectId) {
+            sessionStorage.removeItem(`qmetrix_draft_${projectId}`);
+            sessionStorage.removeItem(`qmetrix_baseline_${projectId}`);
+        }
+    };
 
     const handleSaveRoom = () => {
         if (!roomName.trim() || currentPoints.length < 3) {
@@ -104,6 +134,9 @@ function WorkspaceContent() {
     const handleSaveProject = async ({ name, description }) => {
         try {
             setIsSaving(true);
+            clearDraftSession()
+
+            // Create a FormData object
             const formData = new FormData();
 
             formData.append('name', name);
@@ -167,7 +200,7 @@ function WorkspaceContent() {
         <div className="min-h-screen bg-slate-300 flex flex-col antialiased selection:bg-blue-600 selection:text-white">
             <Navbar title={projectId ? "Reopen & Edit Blueprint" : "New Blueprint Workspace"} />
 
-            <main className="flex-1 max-w-[1600px] w-full mx-auto px-4 py-7 flex flex-col gap-6">
+            <main className="flex-1 max-w-[1600px] w-full mx-auto px-2 md:px-4 py-7 flex flex-col gap-6">
                 {loadingProject ? (
                     <div className="flex-1 flex flex-col justify-center items-center py-32 bg-white rounded-3xl border border-slate-200/80 shadow-xs">
                         <Loader2 className="w-10 h-10 animate-spin text-blue-600 mb-3" />
@@ -176,75 +209,72 @@ function WorkspaceContent() {
                     </div>
                 ) : (
                     <>
+
+
                         {/* Premium Enterprise Header & Action Bar */}
-                        <div className="relative overflow-hidden rounded-3xl border border-blue-500/20 bg-gradient-to-br from-slate-950 via-indigo-950 to-blue-950 p-6 sm:p-8 shadow-xl text-white flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
-                            {/* Soft Decorative Ambient Glow */}
-                            <div className="absolute right-0 top-0 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                        <div className=" relative overflow-hidden rounded-3xl border border-blue-500/30 bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 p-5 sm:p-7 shadow-2xl text-white flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
+                            {/* Soft Decorative Ambient Glow & Background Accents */}
+                            <div className="absolute right-0 top-0 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none"></div>
+                            <div className="absolute left-10 bottom-0 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
-                            <div className="relative z-10 space-y-2">
-                                <div className="flex items-center gap-2.5">
-                                    {/* <span className="inline-flex items-center gap-2 bg-slate-800/80 text-blue-400 border border-slate-700/80 text-[11px] font-bold px-3.5 py-1 rounded-full shadow-sm backdrop-blur-xs">
-                                        QMetrix QS Engine
-                                    </span> */}
-                                    <span className="text-slate-600">•</span>
-                                    <span className="text-xs font-semibold text-slate-400">QMetrix QS Engine</span>
+                            {/* Left Side: Branding & Interactive Workflow Stepper */}
+                            <div className="relative z-10 space-y-3 w-full lg:w-auto">
+                                <div className="flex items-center gap-2">
+                                    <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+                                    <span className="text-[11px] font-bold uppercase tracking-widest text-slate-500">QMetrix QS Estimation Engine</span>
                                 </div>
-                                <h2 className="text-lg sm:text-2xl lg:text-3xl font-extrabold text-white tracking-tight flex flex-wrap items-center gap-2 sm:gap-3.5">
-                                    {/* Step 1: Upload */}
-                                    <span className="flex items-center gap-1.5 sm:gap-2 text-slate-300">
-                                        <FileUp className="w-4 h-4 sm:w-5 sm:h-5 text-blue-300 shrink-0" />
-                                        Upload
-                                    </span>
 
-                                    {/* Separator */}
-                                    <span className="text-slate-600 font-medium hidden sm:inline">/</span>
+                                {/* Workflow Title Steps */}
+                                <div className="flex flex-wrap items-center gap-2 sm:gap-3.5">
+                                    {/* Step 1 */}
+                                    <div className="flex items-center gap-2 px-2 py-1 text-xl lg:text-2xl font-semibold md:font-extrabold text-slate-300">
+                                        <FileUp className="w-5 h-5 text-slate-400 shrink-0" />
+                                        <span data-aos="fade-out"> Upload PDF</span>
+                                    </div>
 
-                                    {/* Step 2: Add Room */}
-                                    <span className="flex items-center gap-1.5 sm:gap-2 text-slate-300">
-                                        <PencilRuler className="w-4 h-4 sm:w-5 sm:h-5 text-indigo-300 shrink-0" />
-                                        Add Room
-                                    </span>
+                                    <span className="text-slate-600 font-bold hidden sm:inline text-lg">→</span>
 
-                                    {/* Separator */}
-                                    <span className="text-slate-600 font-medium hidden sm:inline">/</span>
+                                    {/* Step 2 */}
+                                    <div className="flex items-center gap-2 px-2 py-1 text-xl lg:text-2xl font-semibold md:font-extrabold text-slate-300">
+                                        <PencilRuler className="w-5 h-5 text-slate-400 shrink-0" />
+                                        <span data-aos="fade-out"> Map & Add Room</span>
+                                    </div>
 
-                                    {/* Step 3: Save */}
-                                    <span className="flex items-center gap-1.5 sm:gap-2 text-slate-300">
-                                        <Save className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-300 shrink-0" />
-                                        Save
-                                    </span>
-                                </h2>
-                                <p className="text-xs sm:text-sm text-slate-300 max-w-2xl font-medium leading-relaxed">
-                                    Map architectural room boundaries using precise vertex coordinate capture to compute real-time areas and bills of quantities.
+                                    <span className="text-slate-600 font-bold hidden sm:inline text-lg">→</span>
+
+                                    {/* Step 3 */}
+                                    <div className="flex items-center gap-2 px-2 py-1 text-xl lg:text-2xl font-semibold md:font-extrabold text-slate-300">
+                                        <Save className="w-5 h-5 text-slate-400 shrink-0" />
+                                        <span data-aos="fade-out"> Final Save</span>
+                                    </div>
+                                </div>
+                                <p className="text-xs sm:text-sm text-slate-500 font-medium leading-relaxed max-w-xl">
+                                    Execute precise polygon takeoffs, calculate real-time surface areas, and generate bills of quantities seamlessly.
                                 </p>
                             </div>
 
-                            {/* Right Side Live Metric Design Pills & Save CTA */}
-                            <div className="relative z-10 flex flex-wrap lg:flex-nowrap items-center gap-3 w-full lg:w-auto justify-end shrink-0 pt-1 lg:pt-0 border-t lg:border-t-0 border-slate-800">
+                            {/* Right Side: Live Metric Design Pills */}
+                            <div className="relative z-10 flex flex-wrap sm:flex-nowrap items-center gap-3 w-full lg:w-auto justify-between lg:justify-end shrink-0 pt-3 lg:pt-0 border-t lg:border-t-0 border-slate-800/80">
 
-                                {/* Architectural Live Metrics Design Pill */}
-                                <div className="flex items-center gap-4 bg-slate-900/80 border border-slate-800 px-4 py-2.5 rounded-2xl backdrop-blur-md shadow-inner">
-                                    <div className="text-right">
-                                        <p className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Total Area</p>
-                                        <p className="text-xs font-extrabold text-blue-400">{totalFloorArea.toFixed(2)} sq.m</p>
+                                {/* Architectural Live Metrics Pill */}
+                                <div className="flex items-center justify-between sm:justify-start gap-4 bg-slate-900/90 border border-slate-800 px-5 py-3 rounded-2xl backdrop-blur-xl shadow-inner w-full sm:w-auto">
+                                    <div className="text-left sm:text-right">
+                                        <p className="text-[10px] uppercase font-extrabold text-slate-400 tracking-wider">Total Area</p>
+                                        <p className="text-sm font-black text-cyan-400">{totalFloorArea.toFixed(2)} <span className="text-[10px] text-slate-400">sq.m</span></p>
                                     </div>
-                                    <div className="h-6 w-px bg-slate-800"></div>
-                                    <div className="text-right">
-                                        <p className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Rooms Mapped</p>
-                                        <p className="text-xs font-extrabold text-emerald-400">{annotations.length} Units</p>
+
+                                    <div className="h-7 w-px bg-slate-800"></div>
+
+                                    <div className="text-left sm:text-right">
+                                        <p className="text-[10px] uppercase font-extrabold text-slate-400 tracking-wider">Rooms Mapped</p>
+                                        <p className="text-sm font-black text-emerald-400">{annotations.length} <span className="text-[10px] text-slate-400">Units</span></p>
                                     </div>
                                 </div>
 
-                                {/* Save Project Button */}
-                                {/* <button
-                                    onClick={() => setIsModalOpen(true)}
-                                    className="flex-1 sm:flex-initial flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold px-6 py-3.5 rounded-2xl shadow-md shadow-blue-900/35 transition-all text-xs sm:text-sm cursor-pointer active:scale-95 border border-blue-400/20"
-                                >
-                                    <Save className="w-4 h-4" />
-                                    {projectId ? 'Update Project & Sync' : 'Save Project Takeoffs'}
-                                </button> */}
                             </div>
                         </div>
+
+
 
                         {/* Core Workspace Canvas */}
                         <div className="flex-1 flex flex-col bg-white rounded-3xl border border-slate-200/80 shadow-xs p-2 sm:p-4">
@@ -275,6 +305,7 @@ function WorkspaceContent() {
                     className="fixed inset-0 bg-slate-900/20 backdrop-blur-xs z-50 transition-opacity"
                 />
             )}
+
             <div className={`fixed top-0 right-0 bottom-0 z-50 w-full sm:w-[380px] lg:w-[480px] bg-white shadow-2xl border-l border-slate-200 flex flex-col transition-transform duration-300 ease-in-out ${isSidebarOpen ? 'translate-x-0' : 'translate-x-full pointer-events-none'
                 }`}>
                 <BoqSidebar
@@ -300,6 +331,40 @@ function WorkspaceContent() {
                 isSaving={isSaving}
                 initialData={projectId ? { name: projectName, description: projectDescription } : null}
             />
+
+            {/* 🌟 Custom Unsaved Changes Warning Modal Popup */}
+            {showUnsavedWarningModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 backdrop-blur-xs p-4 animate-fade-in">
+                    <div className="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-100 text-center space-y-4">
+                        <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center mx-auto shadow-inner">
+                            <AlertCircle className="w-6 h-6 animate-pulse" />
+                        </div>
+                        <div>
+                            <h3 className="text-lg font-black text-slate-900">Unsaved Takeoff Changes!</h3>
+                            <p className="text-xs text-slate-500 mt-1">
+                                You have mapped rooms in memory that have not been permanently saved. Click <span className="font-bold text-blue-600">"Final Save Project Now"</span> to secure your measurements to the database.
+                            </p>
+                        </div>
+                        <div className="flex gap-2.5 pt-2">
+                            <button
+                                onClick={() => setShowUnsavedWarningModal(false)}
+                                className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs py-3 rounded-xl transition-all cursor-pointer"
+                            >
+                                Continue Editing
+                            </button>
+                            <button
+                                onClick={() => {
+                                    setShowUnsavedWarningModal(false);
+                                    setIsModalOpen(true); // Open the final save modal form directly
+                                }}
+                                className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs py-3 rounded-xl transition-all shadow-md shadow-blue-600/20 cursor-pointer"
+                            >
+                                Final Save Project Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

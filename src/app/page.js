@@ -47,7 +47,7 @@ export default async function DashboardPage() {
             {/* Left Side: Titles and Description */}
             <div className="space-y-3">
               <div className="flex items-center gap-2.5">
-                <span className="inline-flex items-center gap-2 bg-blue-500/20 text-blue-300 border border-blue-400/30 text-[11px] font-bold px-3.5 py-1 rounded-full uppercase tracking-wider shadow-sm backdrop-blur-md">
+                <span className="inline-flex items-center gap-2 bg-blue-500/20 text-blue-300 border border-blue-400/30 text-[9px] sm:text-[11px]  font-bold px-3.5 py-1 rounded-full uppercase tracking-wider shadow-sm backdrop-blur-md">
                   <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
                   Quantity Surveying & Cost Estimations
                 </span>
@@ -65,7 +65,7 @@ export default async function DashboardPage() {
             {/* Right Side: Action CTA */}
             <Link
               href="/workspace"
-              className="group relative z-10 flex items-center justify-center gap-2.5 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-semibold px-6 py-4 rounded-2xl shadow-md shadow-blue-500/30 transition-all duration-300 hover:-translate-y-0.5 shrink-0 cursor-pointer active:scale-95 text-xs sm:text-sm border border-blue-400/40"
+              className="group relative z-10 flex items-center justify-center gap-2.5 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-semibold px-6 py-4 rounded-2xl shadow-md shadow-blue-500/30 transition-all duration-300 hover:-translate-y-0.5 shrink-0 cursor-pointer active:scale-95 text-sm sm:text-md border border-blue-400/40 "
             >
               <PlusCircle className="w-5 h-5 transition-transform duration-300 group-hover:rotate-90" />
               Create New Blueprint Project
@@ -81,7 +81,7 @@ export default async function DashboardPage() {
             </div>
             <div>
               <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Projects</p>
-              <p className="text-xl font-extrabold text-slate-900 mt-0.5">{totalProjects}</p>
+              <p className="text-xl font-extrabold text-slate-900 mt-0.5" data-aos='fade-in'>{totalProjects}</p>
             </div>
           </div>
 
@@ -91,7 +91,7 @@ export default async function DashboardPage() {
             </div>
             <div>
               <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">Cumulative Takeoff Area</p>
-              <p className="text-xl font-extrabold text-slate-900 mt-0.5">{totalAreaAllProjects.toFixed(2)} sq.m</p>
+              <p className="text-xl font-extrabold text-slate-900 mt-0.5" data-aos='fade-in'>{totalAreaAllProjects.toFixed(2)} sq.m</p>
             </div>
           </div>
 
@@ -101,7 +101,7 @@ export default async function DashboardPage() {
             </div>
             <div>
               <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Fit-out Budget</p>
-              <p className="text-xl font-extrabold text-emerald-700 mt-0.5">
+              <p className="text-xl font-extrabold text-emerald-700 mt-0.5" data-aos='fade-in'>
                 ₹ {totalEstimatedCostAll.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </p>
             </div>

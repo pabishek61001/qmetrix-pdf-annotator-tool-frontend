@@ -130,8 +130,9 @@ const ROOM_COLORS = [
     { fill: 'fill-amber-600/30', stroke: 'stroke-amber-700', badge: 'bg-amber-900/95 border-amber-400/30' },
     { fill: 'fill-purple-600/30', stroke: 'stroke-purple-700', badge: 'bg-purple-900/95 border-purple-400/30' },
     { fill: 'fill-rose-600/30', stroke: 'stroke-rose-700', badge: 'bg-rose-900/95 border-rose-400/30' },
+    { fill: 'fill-indigo-600/30', stroke: 'stroke-indigo-700', badge: 'bg-indigo-900/95 border-indigo-400/30' },
+    { fill: 'fill-teal-600/30', stroke: 'stroke-teal-700', badge: 'bg-teal-900/95 border-teal-400/30' },
 ];
-
 
 export default function CanvasViewer({
     canvasRef,
@@ -142,7 +143,8 @@ export default function CanvasViewer({
     currentPoints
 }) {
     const [isMobile, setIsMobile] = useState(false);
-    const [mobileCanvasUrl, setMobileCanvasUrl] = useState(null);
+    const [mobileCanvasData, setMobileCanvasData] = useState(null); // stores { url, height }
+    const [activeHoverIdx, setActiveHoverIdx] = useState(null);
 
     // Detect mobile device on mount
     useEffect(() => {
@@ -154,7 +156,7 @@ export default function CanvasViewer({
         return () => window.removeEventListener('resize', checkMobile);
     }, []);
 
-    // Render PDF to a flat image data URL on mobile using PDF.js
+    // Render PDF to a fast image data URL on mobile preserving true PDF aspect ratio
     useEffect(() => {
         if (!pdfUrl || !isMobile) return;
 
@@ -165,23 +167,34 @@ export default function CanvasViewer({
                     ? pdfUrl
                     : `${process.env.NEXT_PUBLIC_API_URL}${pdfUrl}`;
 
-                // Ensure url is defined before calling
                 if (!resolvedUrl) return;
 
                 const loadingTask = pdfjsLib.getDocument({ url: resolvedUrl });
                 const pdfDoc = await loadingTask.promise;
                 const page = await pdfDoc.getPage(1);
 
-                const viewport = page.getViewport({ scale: 2.0 }); // High-res scaling for mobile
+                // Base viewport at scale 1.0 to read natural dimensions
+                const unscaledViewport = page.getViewport({ scale: 1.0 });
+
+                // Set a fixed logical width (1000px) and compute proportional height dynamically
+                const targetWidth = 1000;
+                const calculatedHeight = Math.round((unscaledViewport.height / unscaledViewport.width) * targetWidth);
+
+                const renderScale = targetWidth / unscaledViewport.width;
+                const viewport = page.getViewport({ scale: renderScale });
+
                 const canvas = document.createElement('canvas');
                 const context = canvas.getContext('2d');
-                canvas.height = viewport.height;
-                canvas.width = viewport.width;
+                canvas.width = targetWidth;
+                canvas.height = calculatedHeight; // Proportional height prevents any cropping
 
                 await page.render({ canvasContext: context, viewport }).promise;
 
                 if (isMounted) {
-                    setMobileCanvasUrl(canvas.toDataURL('image/png'));
+                    setMobileCanvasData({
+                        url: canvas.toDataURL('image/jpeg', 0.85),
+                        height: calculatedHeight
+                    });
                 }
             } catch (err) {
                 console.error("Mobile PDF rendering error:", err);
@@ -199,25 +212,30 @@ export default function CanvasViewer({
     return (
         <div className="w-full flex flex-col relative">
             {/* Active Mapping Banner */}
-            <div className="mb-3 text-amber-800 text-xs font-semibold px-3 sm:px-4 py-2 rounded-2xl flex items-center justify-end gap-2 shadow-2xs shrink-0 text-center">
+            <div className="mb-3 text-amber-800 text-xs font-semibold px-3 sm:px-4 py-2 rounded-2xl flex items-center justify-start gap-2 shadow-2xs shrink-0 text-center">
                 <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse shrink-0"></span>
                 <span>{isDrawing ? 'Mapping Active: Click room boundaries directly on the floor plan.' : pdfUrl ? 'Ready. Click "One Click Room Mapper" to start.' : 'Please upload a PDF floor plan to begin.'}</span>
             </div>
 
-            {/* Fully Locked Container */}
+            {/* Fully Scrollable Mobile Container */}
             <div className="w-full bg-slate-900/5 border-2 border-dashed border-slate-300 rounded-2xl p-2 sm:p-4 flex items-center justify-start sm:justify-center overflow-x-auto overflow-y-hidden shadow-inner touch-pan-x [-webkit-overflow-scrolling:touch]">
                 <div
                     ref={canvasRef}
                     onClick={handleCanvasClick}
                     className="relative bg-white shadow-xl rounded-xl cursor-crosshair shrink-0 overflow-hidden"
-                    style={{ width: '1000px', height: '650px', background: '#ffffff', minWidth: '1000px' }}
+                    style={{
+                        width: '1000px',
+                        height: isMobile && mobileCanvasData?.height ? `${mobileCanvasData.height}px` : '650px',
+                        background: '#ffffff',
+                        minWidth: '1000px'
+                    }}
                 >
                     {pdfUrl ? (
                         isMobile ? (
-                            // MOBILE: Renders as a crisp image canvas layer — zero prompts, zero scrolling, 100% reliable!
-                            mobileCanvasUrl ? (
+                            // MOBILE: Renders as a crisp image canvas layer with dynamic height
+                            mobileCanvasData?.url ? (
                                 <img
-                                    src={mobileCanvasUrl}
+                                    src={mobileCanvasData.url}
                                     alt="Mobile Blueprint Render"
                                     className="absolute inset-0 w-full h-full z-0 select-none pointer-events-none object-fill"
                                 />
@@ -246,16 +264,33 @@ export default function CanvasViewer({
                     <svg className="absolute inset-0 w-full h-full pointer-events-none z-10 overflow-hidden">
                         {annotations.map((ann, idx) => {
                             const colorScheme = ROOM_COLORS[idx % ROOM_COLORS.length];
+                            const isSelected = activeHoverIdx === idx;
+                            const currentHeight = isMobile && mobileCanvasData?.height ? mobileCanvasData.height : 650;
 
                             return (
                                 <g key={idx}>
+                                    {/* Room Polygon Area with Hover & Click handlers */}
                                     <polygon
-                                        points={(ann.points || []).map((p) => `${p.x * 1000},${p.y * 650}`).join(' ')}
-                                        className={`${colorScheme.fill} ${colorScheme.stroke} stroke-2 hover:opacity-80 transition-all pointer-events-auto`}
+                                        points={(ann.points || []).map((p) => `${p.x * 1000},${p.y * currentHeight}`).join(' ')}
+                                        className={`${colorScheme.fill} ${colorScheme.stroke} stroke-2 hover:opacity-90 transition-all pointer-events-auto cursor-pointer`}
+                                        onMouseEnter={() => setActiveHoverIdx(idx)}
+                                        onMouseLeave={() => setActiveHoverIdx(null)}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            setActiveHoverIdx(isSelected ? null : idx);
+                                        }}
                                     />
+
+                                    {/* Room Title & Area Badge (Hidden by default, overlays on hover or click) */}
                                     {ann.points && ann.points.length > 0 && (
-                                        <foreignObject x={(ann.points[0].x * 1000) - 10} y={(ann.points[0].y * 650) - 32} width="160" height="45">
-                                            <div className={`${colorScheme.badge} backdrop-blur-xs text-white text-[11px] font-bold px-2.5 py-1.5 rounded-lg shadow-lg truncate border`}>
+                                        <foreignObject
+                                            x={(ann.points[0].x * 1000) - 10}
+                                            y={(ann.points[0].y * currentHeight) - 32}
+                                            width="160"
+                                            height="45"
+                                            className={`transition-all duration-200 pointer-events-none ${isSelected ? 'opacity-100 z-50 scale-105' : 'opacity-0 hover:opacity-100'}`}
+                                        >
+                                            <div className={`${colorScheme.badge} backdrop-blur-xs text-white text-[11px] font-bold px-2.5 py-1.5 rounded-lg shadow-xl truncate border ring-2 ring-white/20`}>
                                                 {ann.roomName}: {ann.area} sq.m
                                             </div>
                                         </foreignObject>
@@ -268,14 +303,14 @@ export default function CanvasViewer({
                         {currentPoints.length > 0 && (
                             <>
                                 <polyline
-                                    points={currentPoints.map((p) => `${p.x * 1000},${p.y * 650}`).join(' ')}
+                                    points={currentPoints.map((p) => `${p.x * 1000},${p.y * (isMobile && mobileCanvasData?.height ? mobileCanvasData.height : 650)}`).join(' ')}
                                     className="fill-none stroke-blue-600 stroke-2 stroke-dasharray-4"
                                 />
                                 {currentPoints.map((p, idx) => (
                                     <circle
                                         key={idx}
                                         cx={p.x * 1000}
-                                        cy={p.y * 650}
+                                        cy={p.y * (isMobile && mobileCanvasData?.height ? mobileCanvasData.height : 650)}
                                         r="6"
                                         className="fill-blue-600 stroke-white stroke-2 shadow-sm"
                                     />

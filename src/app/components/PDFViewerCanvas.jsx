@@ -63,7 +63,7 @@ export default function PDFViewerCanvas({
             <div className="w-full bg-white rounded-2xl sm:rounded-3xlflex flex-col relative ">
 
                 {/* Sticky Toolbar with responsive mobile icon/text layout */}
-                <div className="sticky top-16 md:top-20 z-40 w-full mb-4 bg-gray-200 backdrop-blur-xl p-3 sm:p-3.5 border border-slate-200/80 shadow-md flex flex-col md:flex-row justify-between items-stretch md:items-center gap-3 transition-all">
+                <div className="sticky top-16 md:top-16 z-40 w-full mb-4  backdrop-blur-xl p-3 sm:p-3.5 border border-slate-200/80 bg-white flex flex-col md:flex-row justify-between items-stretch md:items-center gap-3 transition-all">
 
                     {/* Left Group: Mapper Button & Points Counter */}
                     <div className="flex flex-wrap items-center justify-between sm:justify-start gap-2 w-full md:w-auto">
@@ -132,7 +132,11 @@ export default function PDFViewerCanvas({
                                 title="Toggle BoQ & Room Manager"
                             >
                                 <Calculator className="w-4 h-4 hidden md:block text-violet-300" />
-                                <span>BoQ ({annotations.length})</span>
+
+                                {/* Responsive Text Layout */}
+                                <span className="sm:hidden">+ Room</span>
+                                <span className="hidden sm:inline">Room Takeoffs / BoQ ({annotations.length})</span>
+
                                 {isSidebarOpen ? (
                                     <PanelRightClose className="w-4 h-4 ml-0.5 text-violet-300" />
                                 ) : (
@@ -140,7 +144,6 @@ export default function PDFViewerCanvas({
                                 )}
                             </button>
                         )}
-
                         {/* Save Project Button (Action Blue / Sync Theme) */}
                         {onSaveClick && (
                             <button

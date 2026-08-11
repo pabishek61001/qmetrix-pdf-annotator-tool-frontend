@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { FileText, ArrowRight, Layers, Calendar, Calculator, Trash2, AlertTriangle, X } from 'lucide-react';
+import { FileText, ArrowRight, Layers, Calendar, Calculator, Trash2, AlertTriangle, X, PlusCircle } from 'lucide-react';
 
 export default function DashboardGrid({ projects }) {
     const safeProjects = Array.isArray(projects) ? projects : [];
@@ -44,6 +44,14 @@ export default function DashboardGrid({ projects }) {
                 <p className="text-slate-500 text-xs sm:text-sm max-w-sm mx-auto mt-1 mb-6">
                     Get started by uploading a floor plan PDF and mapping room markings.
                 </p>
+                {/* Right Side: Action CTA */}
+                <Link
+                    href="/workspace"
+                    className="group relative z-10 flex items-center justify-center gap-2.5 text-blue-500 font-semibold px-6 py-2 rounded-xl transition-all duration-300 hover:-translate-y-0.5 shrink-0 cursor-pointer active:scale-95 text-sm sm:text-md border border-blue-800/20 w-fit mx-auto "
+                >
+                    <PlusCircle className="w-5 h-5 transition-transform duration-300 group-hover:rotate-90" />
+                    Create New Blueprint Project
+                </Link>
             </div>
         );
     }
@@ -115,10 +123,9 @@ export default function DashboardGrid({ projects }) {
                                             <button
                                                 type="button"
                                                 onClick={() => setProjectToDelete(project)}
-                                                title="Delete Project"
-                                                className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all cursor-pointer"
+                                                className="p-2.5 text-slate-400 hover:text-red-600  hover:bg-red-50 rounded-xl transition-all cursor-pointer border border-slate-200/60 bg-red-50"
                                             >
-                                                <Trash2 className="w-4 h-4" />
+                                                <Trash2 className="w-4 h-4 text-red-400" />
                                             </button>
 
                                             <Link
@@ -179,9 +186,9 @@ export default function DashboardGrid({ projects }) {
                                     <button
                                         type="button"
                                         onClick={() => setProjectToDelete(project)}
-                                        className="p-2.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all cursor-pointer border border-slate-200/60"
+                                        className="p-2.5 text-slate-400 hover:text-red-600  hover:bg-red-50 rounded-xl transition-all cursor-pointer border border-slate-200/60 bg-red-50"
                                     >
-                                        <Trash2 className="w-4 h-4" />
+                                        <Trash2 className="w-4 h-4 text-red-400" />
                                     </button>
 
                                     <Link
@@ -189,7 +196,7 @@ export default function DashboardGrid({ projects }) {
                                         className="flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2.5 rounded-xl transition-all shadow-xs cursor-pointer"
                                     >
                                         Reopen
-                                        <ArrowRight className="w-3.5 h-3.5" />
+                                        <ArrowRight className="w-3.5 h-3.5 " />
                                     </Link>
                                 </div>
                             </div>
