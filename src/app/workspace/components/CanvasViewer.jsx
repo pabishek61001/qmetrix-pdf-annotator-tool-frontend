@@ -100,7 +100,7 @@ export default function CanvasViewer({ canvasRef, handleCanvasClick, pdfUrl, isD
                 <div
                     ref={canvasRef}
                     onClick={handleCanvasClick}
-                    className={`relative bg-white shadow-xl rounded-xl shrink-0 overflow-hidden ${isDrawing ? 'cursor-crosshair touch-none' : 'cursor-default touch-auto'}`}
+                    className={`relative bg-white shadow-xl rounded-xl shrink-0 overflow-hidden ${isDrawing ? 'cursor-crosshair' : 'cursor-default touch-auto'}`}
                     style={{
                         width: '1000px',
                         height: isMobile && mobileCanvasData?.height ? `${mobileCanvasData.height}px` : '650px',
