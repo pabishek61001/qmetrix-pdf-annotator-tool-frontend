@@ -36,7 +36,7 @@ export const metadata = {
   openGraph: {
     title: 'QMetrix | PDF Takeoff & Quantity Surveying Suite',
     description: 'Execute precise polygon takeoffs, calculate real-time surface areas, and generate bills of quantities seamlessly.',
-    url: 'https://your-live-deployment-url.vercel.app',
+    url: 'https://qmetrix-pdf-annotator-tool.vercel.app',
     siteName: 'QMetrix QS Estimation Engine',
     locale: 'en_IN',
     type: 'website',
