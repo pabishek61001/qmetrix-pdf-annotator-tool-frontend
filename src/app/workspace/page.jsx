@@ -264,19 +264,40 @@ function WorkspaceContent() {
                             {/* Right Side: Live Metric Design Pills */}
                             <div className="relative z-10 flex flex-wrap sm:flex-nowrap items-center gap-3 w-full lg:w-auto justify-between lg:justify-end shrink-0 pt-3 lg:pt-0 border-t lg:border-t-0 border-slate-800/80">
 
-                                {/* Architectural Live Metrics Pill */}
-                                <div className="flex items-center justify-between sm:justify-start gap-4 bg-slate-900/90 border border-slate-800 px-5 py-3 rounded-2xl backdrop-blur-xl shadow-inner w-full sm:w-auto">
-                                    <div className="text-left sm:text-right">
-                                        <p className="text-[10px] uppercase font-extrabold text-slate-400 tracking-wider">Total Area</p>
-                                        <p className="text-sm font-black text-cyan-400">{totalFloorArea.toFixed(2)} <span className="text-[10px] text-slate-400">sq.m</span></p>
+                                {/* Right Side: Live Metric Design Pills & Project Info */}
+                                <div className="relative z-10 flex flex-wrap lg:flex-nowrap items-center gap-3 w-full lg:w-auto justify-between lg:justify-end shrink-0 pt-3 lg:pt-0 border-t lg:border-t-0 border-slate-800/80">
+
+                                    {/* Unified Architectural Live Metrics & Project Title Pill */}
+                                    <div className="flex items-center justify-between lg:justify-start gap-3 sm:gap-4 bg-slate-900/90 border border-slate-800 px-4 sm:px-5 py-3 rounded-2xl backdrop-blur-xl shadow-inner w-full lg:w-auto">
+
+                                        {/* Project Title / Active Name Section */}
+                                        <div className="text-left pr-3 border-r border-slate-800 min-w-[110px] max-w-[150px] sm:max-w-[180px]">
+                                            <p className="text-[9px] md:text-[10px] uppercase font-extrabold text-slate-400 tracking-wider">Active Project</p>
+                                            <p className="text-xs sm:text-sm font-black text-white truncate">
+                                                {projectName || 'New Project'}
+                                            </p>
+                                        </div>
+
+                                        {/* Total Area Section */}
+                                        <div className="text-left sm:text-right">
+                                            <p className="text-[9px] md:text-[10px] uppercase font-extrabold text-slate-400 tracking-wider">Total Area</p>
+                                            <p className="text-xs sm:text-sm font-black text-cyan-400">
+                                                {totalFloorArea.toFixed(2)} <span className="text-[9px] sm:text-[10px] text-slate-400">sq.m</span>
+                                            </p>
+                                        </div>
+
+                                        <div className="h-7 w-px bg-slate-800"></div>
+
+                                        {/* Rooms Mapped Section */}
+                                        <div className="text-left sm:text-right">
+                                            <p className="text-[9px] md:text-[10px] uppercase font-extrabold text-slate-400 tracking-wider">Rooms Mapped</p>
+                                            <p className="text-xs sm:text-sm font-black text-emerald-400">
+                                                {annotations.length} <span className="text-[9px] sm:text-[10px] text-slate-400">Units</span>
+                                            </p>
+                                        </div>
+
                                     </div>
 
-                                    <div className="h-7 w-px bg-slate-800"></div>
-
-                                    <div className="text-left sm:text-right">
-                                        <p className="text-[10px] uppercase font-extrabold text-slate-400 tracking-wider">Rooms Mapped</p>
-                                        <p className="text-sm font-black text-emerald-400">{annotations.length} <span className="text-[10px] text-slate-400">Units</span></p>
-                                    </div>
                                 </div>
 
                             </div>
