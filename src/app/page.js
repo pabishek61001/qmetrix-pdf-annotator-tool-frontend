@@ -67,7 +67,7 @@ export default async function DashboardPage() {
             <div className="flex flex-row items-center gap-2 sm:gap-3 w-full max-w-sm">
               <a
                 href="#projects-section"
-                className="group relative z-10 flex-1 flex items-center justify-center gap-1.5 sm:gap-2 bg-slate-700/80 hover:bg-slate-800 text-slate-200 font-semibold px-3 sm:px-6 py-3.5 sm:py-4 rounded-2xl transition-all duration-300 hover:-translate-y-0.5 cursor-pointer active:scale-95 text-xs sm:text-md border border-slate-700/60 backdrop-blur-md text-center shadow-xs"
+                className="group relative z-10 flex-1 flex items-center justify-center gap-1.5 sm:gap-2 bg-slate-700/80 hover:bg-slate-800 text-slate-200 font-semibold px-3 sm:px-6 py-3.5 sm:py-4 rounded-2xl transition-all duration-300 hover:-translate-y-0.5 cursor-pointer active:scale-95 text-sm sm:text-md border border-slate-700/60 backdrop-blur-md text-center shadow-xs"
               >
                 <Folders className="w-4 h-4 text-slate-300 shrink-0 transition-transform duration-300 group-hover:translate-y-0.5" />
                 <span className="truncate">View Projects</span>
@@ -75,7 +75,7 @@ export default async function DashboardPage() {
 
               <Link
                 href="/workspace"
-                className="group relative z-10 flex-1 flex items-center justify-center gap-1.5 sm:gap-2.5 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-semibold px-3 sm:px-6 py-3.5 sm:py-4 rounded-2xl shadow-md shadow-blue-500/30 transition-all duration-300 hover:-translate-y-0.5 cursor-pointer active:scale-95 text-xs sm:text-md border border-blue-400/40 text-center"
+                className="group relative z-10 flex-1 flex items-center justify-center gap-1.5 sm:gap-2.5 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-semibold px-3 sm:px-6 py-3.5 sm:py-4 rounded-2xl shadow-md shadow-blue-500/30 transition-all duration-300 hover:-translate-y-0.5 cursor-pointer active:scale-95 text-sm sm:text-md border border-blue-400/40 text-center"
               >
                 <PlusCircle className="w-4 h-4 sm:w-5 sm:h-5 shrink-0 transition-transform duration-300 group-hover:rotate-90" />
                 <span className="truncate">Create Project</span>

@@ -180,7 +180,7 @@ export default function SavedProjects({ projects }) {
                                         <div className="p-2 bg-blue-50 text-blue-600 rounded-xl">
                                             <Layers className="w-4 h-4" />
                                         </div>
-                                        <h3 className="font-extrabold text-slate-900 text-sm truncate max-w-[180px] capitalize">
+                                        <h3 className="font-bold text-slate-900 text-md truncate max-w-[180px] capitalize">
                                             {project.name}
                                         </h3>
                                     </div>
