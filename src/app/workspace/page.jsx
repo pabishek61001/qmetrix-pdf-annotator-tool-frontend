@@ -204,7 +204,7 @@ function WorkspaceContent() {
         <div className="min-h-screen bg-slate-200 flex flex-col antialiased selection:bg-blue-600 selection:text-white">
             <Navbar title={projectId ? "Reopen & Edit Blueprint" : "New Blueprint Workspace"} />
 
-            <main className="flex-1 max-w-[1600px] w-full mx-auto px-3 md:px-4 py-4 flex flex-col gap-6">
+            <main className="flex-1 max-w-[1600px] w-full mx-auto px-3 lg:px-8 py-4 lg:py-6 flex flex-col gap-6">
                 {loadingProject ? (
                     <div className="flex-1 flex flex-col justify-center items-center py-32 bg-white rounded-3xl border border-slate-200/80 shadow-xs">
                         <Loader2 className="w-10 h-10 animate-spin text-blue-600 mb-3" />
@@ -215,7 +215,7 @@ function WorkspaceContent() {
                     <>
 
                         {/* Hero / Action Header Banner */}
-                        <div className="relative overflow-hidden rounded-3xl border border-blue-500/20 bg-gradient-to-br from-blue-950 via-indigo-150 to-slate-950 p-6 sm:p-6 shadow-blue-950/40 text-white ">
+                        <div className="relative overflow-hidden rounded-3xl border border-blue-500/20 bg-gradient-to-br from-blue-950 via-indigo-950 to-slate-950 p-6 sm:p-10 shadow-blue-950/40 text-white">
                             {/* 1. Architectural CAD Grid Pattern Overlay */}
                             <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:2rem_2rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none" />
 
@@ -223,50 +223,50 @@ function WorkspaceContent() {
                             <div className="absolute -left-20 -top-20 h-72 w-72 rounded-full bg-blue-600/30 blur-[90px] pointer-events-none" />
                             <div className="absolute -right-20 -bottom-20 h-72 w-72 rounded-full bg-indigo-500/20 blur-[90px] pointer-events-none" />
 
-                            {/* Left Side: Branding & Interactive Workflow Stepper */}
-                            <div className="relative z-10 space-y-3 w-full lg:w-auto">
-                                <div className="flex items-center gap-2.5">
-                                    <span className="inline-flex items-center gap-2 bg-blue-500/20 text-blue-300 border border-blue-400/30 text-[9px] sm:text-[11px]  font-bold px-3.5 py-1 rounded-full uppercase tracking-wider shadow-sm backdrop-blur-md">
-                                        <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
-                                        QMetrix QS Estimation Engine
-                                    </span>
+                            {/* Main Flex Wrapper: Stacks on mobile, side-by-side (left/right) on large screens */}
+                            <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 w-full">
+
+                                {/* Left Side: Branding & Interactive Workflow Stepper */}
+                                <div className="space-y-3 w-full lg:w-auto lg:max-w-2xl">
+                                    <div className="flex items-center gap-2.5">
+                                        <span className="inline-flex items-center gap-2 bg-blue-500/20 text-blue-300 border border-blue-400/30 text-[9px] sm:text-[11px] font-bold px-3.5 py-1 rounded-full uppercase tracking-wider shadow-sm backdrop-blur-md">
+                                            <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
+                                            QMetrix QS Estimation Engine
+                                        </span>
+                                    </div>
+
+                                    {/* Workflow Title Steps */}
+                                    <div className="flex flex-wrap items-center gap-2 sm:gap-3.5">
+                                        {/* Step 1 */}
+                                        <div className="flex items-center gap-2 px-2 py-1 text-xl lg:text-xl font-semibold md:font-extrabold text-slate-400">
+                                            <FileUp className="w-5 h-5 text-slate-400 shrink-0" />
+                                            <span className="text-slate-200 font-bold">Upload</span>pdf
+                                        </div>
+
+                                        <span className="text-slate-600 font-bold hidden sm:inline text-lg">→</span>
+
+                                        {/* Step 2 */}
+                                        <div className="flex items-center gap-2 px-2 py-1 text-xl lg:text-xl font-semibold md:font-extrabold text-slate-400">
+                                            <PencilRuler className="w-5 h-5 text-slate-400 shrink-0" />
+                                            <span>Map &  </span> <span className="text-slate-200 font-bold">Add</span>Room
+                                        </div>
+
+                                        <span className="text-slate-600 font-bold hidden sm:inline text-lg">→</span>
+
+                                        {/* Step 3 */}
+                                        <div className="flex items-center gap-2 px-2 py-1 text-xl lg:text-xl font-semibold md:font-extrabold text-slate-400">
+                                            <Save className="w-5 h-5 text-slate-400 shrink-0" />
+                                            <span>Final</span> <span className="text-slate-200 font-bold">Save</span>
+                                        </div>
+                                    </div>
+
+                                    <p className="text-slate-300 text-xs sm:text-sm max-w-lg font-medium leading-relaxed hidden sm:block">
+                                        Execute precise polygon takeoffs, calculate real-time surface areas, and generate bills of quantities seamlessly.
+                                    </p>
                                 </div>
-
-                                {/* Workflow Title Steps */}
-                                <div className="flex flex-wrap items-center gap-2 sm:gap-3.5">
-                                    {/* Step 1 */}
-                                    <div className="flex items-center gap-2 px-2 py-1 text-xl lg:text-2xl font-semibold md:font-extrabold text-slate-400">
-                                        <FileUp className="w-5 h-5 text-slate-400 shrink-0" />
-                                        <span className="text-slate-200 font-bold">Upload</span>pdf
-                                    </div>
-
-                                    <span className="text-slate-600 font-bold hidden sm:inline text-lg">→</span>
-
-                                    {/* Step 2 */}
-                                    <div className="flex items-center gap-2 px-2 py-1 text-xl lg:text-2xl font-semibold md:font-extrabold text-slate-400">
-                                        <PencilRuler className="w-5 h-5 text-slate-400 shrink-0" />
-                                        <span>Map &  </span> <span className="text-slate-200 font-bold" >Add</span>Room
-                                    </div>
-
-                                    <span className="text-slate-600 font-bold hidden sm:inline text-lg">→</span>
-
-                                    {/* Step 3 */}
-                                    <div className="flex items-center gap-2 px-2 py-1 text-xl lg:text-2xl font-semibold md:font-extrabold text-slate-400">
-                                        <Save className="w-5 h-5 text-slate-400 shrink-0" />
-                                        <span>Final</span> <span className="text-slate-200 font-bold">Save</span>
-                                    </div>
-                                </div>
-                                <p className="text-slate-300 text-xs sm:text-sm max-w-2xl font-medium leading-relaxed hidden sm:block">
-                                    Execute precise polygon takeoffs, calculate real-time surface areas, and generate bills of quantities seamlessly.
-                                </p>
-                            </div>
-
-                            {/* Right Side: Live Metric Design Pills */}
-                            <div className="relative z-10 flex flex-wrap sm:flex-nowrap items-center gap-3 w-full lg:w-auto justify-between lg:justify-end shrink-0 pt-3 lg:pt-0 border-t lg:border-t-0 border-slate-800/80">
 
                                 {/* Right Side: Live Metric Design Pills & Project Info */}
-                                <div className="relative z-10 flex flex-wrap lg:flex-nowrap items-center gap-3 w-full lg:w-auto justify-between lg:justify-end shrink-0 pt-3 lg:pt-0 border-t lg:border-t-0 border-slate-800/80">
-
+                                <div className="flex flex-wrap lg:flex-nowrap items-center gap-3 w-full lg:w-auto justify-between lg:justify-end shrink-0 lg:pt-0 border-t lg:border-t-0 border-slate-800/80">
                                     {/* Unified Architectural Live Metrics & Project Title Pill */}
                                     <div className="flex items-center justify-between lg:justify-start gap-3 sm:gap-4 bg-slate-900/90 border border-slate-800 px-4 sm:px-5 py-3 rounded-2xl backdrop-blur-xl shadow-inner w-full lg:w-auto">
 
@@ -297,7 +297,6 @@ function WorkspaceContent() {
                                         </div>
 
                                     </div>
-
                                 </div>
 
                             </div>
