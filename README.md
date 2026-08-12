@@ -27,6 +27,8 @@ The **QMetrix Frontend** is a modern, responsive Next.js web application. It all
 ---
 
 ## 📁 Project Directory Structure
+
+```text
 qmetrix-pdf-annotator-frontend/
 ├── public/                             # Static assets & sample blueprints
 ├── src/
